@@ -48,7 +48,7 @@ export default function Navbar() {
       >
         <div>
           <Link href="/">
-            <Button text="Inicio" />
+            <Button text="Inicio" className="w-30" />
           </Link>
         </div>
 
@@ -63,11 +63,33 @@ export default function Navbar() {
 
         <div className="flex gap-5">
           <Link href="">
-            <Button text="theme" />
+            <Button
+              text="Theme"
+              className="w-25"
+              image={
+                <Image
+                  src="/dark_mode.svg"
+                  alt="theme_swap"
+                  width={27}
+                  height={20}
+                />
+              }
+            />
           </Link>
 
-          <Link href="#">
-            <Button text="ES/EN" />
+          <Link href="">
+            <Button
+              text=""
+              className="w-13 pl-2"
+              image={
+                <Image
+                  src="/language.svg"
+                  alt="language_swap"
+                  width={27}
+                  height={20}
+                />
+              }
+            />
           </Link>
         </div>
       </nav>
