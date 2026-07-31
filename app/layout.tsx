@@ -27,13 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Navbar />
       {/* Setting up thhe Inter font with a class */}
       <body className={`${inter.className} min-h-full flex flex-col`}>
+        <Navbar />
         {/* Calling the Children object (page.tsx) */}
         {children}
+        <Footer />
       </body>
-      <Footer />
     </html>
   );
 }
