@@ -7,7 +7,6 @@ export default function AnimatedBody({
 }: {
   children: React.ReactNode;
 }) {
-  // Empieza visible
   const [showOverlay, setShowOverlay] = useState(true);
 
   useEffect(() => {
@@ -22,18 +21,18 @@ export default function AnimatedBody({
 
     const timer = setTimeout(() => {
       setShowOverlay(false);
-    }, 2500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       {children}
 
       {showOverlay && (
-        <div className="fixed inset-0 z-9999 bg-black animate-fade-out pointer-events-none" />
+        <div className="fixed inset-0 z-[9999] bg-black animate-fade-out pointer-events-none" />
       )}
-    </>
+    </div>
   );
 }

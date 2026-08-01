@@ -4,7 +4,7 @@ Image;
 
 export default function Searchbar() {
   return (
-    <div className="pt-30 flex flex-col items-center">
+    <div className="pt-50 flex flex-col items-center">
       <Image
         src="/gnar_main.png"
         alt="Logo de LolStats"
