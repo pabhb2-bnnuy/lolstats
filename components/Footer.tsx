@@ -16,9 +16,7 @@ export default function Footer() {
         border-t border-white/10
       "
     >
-      <p className="text-gray-100 hover:animate-zoom">
-        LolStats 2026 ©
-      </p>
+      <p className="text-gray-100 hover:animate-zoom">LolStats 2026 ©</p>
 
       <div className="hover:animate-zoom">
         <Link
@@ -27,12 +25,7 @@ export default function Footer() {
         >
           <p className="text-gray-100">pabhb2-bnnuy</p>
 
-          <Image
-            src="/github.svg"
-            alt="GitHub"
-            width={30}
-            height={30}
-          />
+          <Image src="/github.svg" alt="GitHub" width={30} height={30} />
         </Link>
       </div>
     </footer>

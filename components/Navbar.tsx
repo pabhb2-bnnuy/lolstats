@@ -43,13 +43,15 @@ export default function Navbar() {
         className="
     flex justify-between items-center
     px-20 py-1
-    bg-[linear-gradient(135deg,rgba(2,6,23,.88),rgba(15,23,42,.85),rgba(30,41,59,.88),rgba(30,27,75,.80))]
-    bg-size-[300%_300%]
-    animate-gradient
-    backdrop-blur-xl
-    border-b border-slate-700/40
-    shadow-lg shadow-black/30
-  "
+      bg-linear-to-r
+        from-slate-950
+        via-indigo-950
+        to-slate-900
+        bg-size-[300%_300%]
+        animate-gradient
+        border-t border-white/10
+        shadow-md
+      shadow-slate-900"
       >
         <div>
           <Link href="/">
@@ -69,7 +71,7 @@ export default function Navbar() {
         <div className="flex gap-5">
           <Link href="">
             <Button
-              text="Theme"
+              text="Tema"
               className="w-25"
               image={
                 <Image
