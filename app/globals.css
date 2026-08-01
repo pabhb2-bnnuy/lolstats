@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tailwind-animations";
 
+/* Scrollbar color */
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #3467b3b4 #0f172a;
+}
+
 /* custom animations */
 
 /* Zoom animation */
@@ -19,7 +26,29 @@
   }
 }
 
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #3467b3b4 #0f172a;
+/*Navbar and footer animation*/
+@theme {
+  --animate-gradient: gradient 15s ease-in-out infinite;
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    25% {
+      background-position: 100% 0%;
+    }
+
+    50% {
+      background-position: 100% 100%;
+    }
+
+    75% {
+      background-position: 0% 100%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }

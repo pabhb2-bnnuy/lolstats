@@ -41,10 +41,15 @@ export default function Navbar() {
     >
       <nav
         className="
-          flex justify-between items-center
-          px-20 pt-1 pb-1
-          bg-slate-950/30 backdrop-blur
-        "
+    flex justify-between items-center
+    px-20 py-1
+    bg-[linear-gradient(135deg,rgba(2,6,23,.88),rgba(15,23,42,.85),rgba(30,41,59,.88),rgba(30,27,75,.80))]
+    bg-size-[300%_300%]
+    animate-gradient
+    backdrop-blur-xl
+    border-b border-slate-700/40
+    shadow-lg shadow-black/30
+  "
       >
         <div>
           <Link href="/">
