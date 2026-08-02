@@ -14,8 +14,8 @@ export default function PlayerCard({
   icon,
 }: PlayerCardProps) {
   return (
-   <div
-  className="
+    <div
+      className="
     mt-4
     flex
     w-107.5
@@ -43,11 +43,11 @@ export default function PlayerCard({
     hover:border-indigo-500/50
     hover:-translate-y-0.5
   "
->
+    >
       {/* Icono */}
       <div className="relative shrink-0">
         <Image
-          src={`https://ddragon.leagueoflegends.com/cdn/15.15.1/img/profileicon/${icon}.png`}
+          src={`https://ddragon.leagueoflegends.com/cdn/16.15.1/img/profileicon/${icon}.png`}
           alt={gameName}
           width={90}
           height={90}

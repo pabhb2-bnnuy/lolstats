@@ -1,33 +1,55 @@
 export function getQueueName(queueId: number) {
   const queues: Record<number, string> = {
+    // Ranked
     420: "Ranked Solo",
     440: "Ranked Flex",
 
+    // Normales
     400: "Normal Draft",
     430: "Normal Blind",
-
-    450: "ARAM",
-
     490: "Quickplay",
 
-    1700: "Arena",
+    // ARAM
+    450: "ARAM",
 
+    // Arena
+    1700: "Arena",
     1710: "Arena",
 
+    // Clash
+    700: "Clash",
+    710: "Ranked 5v5",
+    720: "ARAM Clash",
+
+    // Modos temporales
     1810: "Swarm",
+    1900: "URF",
   };
 
-  return queues[queueId] ?? "Partida";
+  return queues[queueId] ?? `Partida (${queueId})`;
 }
 
 export function getQueueColor(queueId: number) {
-  if (queueId === 420) return "text-yellow-400";
+  switch (queueId) {
+    case 420:
+      return "text-cyan-500";
 
-  if (queueId === 440) return "text-purple-400";
+    case 440:
+      return "text-purple-400";
 
-  if (queueId === 450) return "text-cyan-400";
+    case 450:
+      return "text-cyan-400";
 
-  if (queueId === 400 || queueId === 430) return "text-green-400";
+    case 400:
+    case 430:
+    case 490:
+      return "text-green-400";
 
-  return "text-slate-400";
+    case 1700:
+    case 1710:
+      return "text-orange-400";
+
+    default:
+      return "text-slate-400";
+  }
 }
