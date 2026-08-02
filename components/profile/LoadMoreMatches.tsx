@@ -15,33 +15,34 @@ export default function LoadMoreMatches({
   champions,
 }: LoadMoreMatchesProps) {
   const [matches, setMatches] = useState(initialMatches);
-
   const [loading, setLoading] = useState(false);
 
   async function loadMore() {
     try {
       setLoading(true);
 
-      const res = await fetch(`/api/matches/${puuid}?start=${matches.length}`);
+      const res = await fetch(
+        `/api/matches/${puuid}?start=${matches.length}`
+      );
 
       const newMatches = await res.json();
 
       if (!Array.isArray(newMatches)) {
         console.error("Respuesta incorrecta:", newMatches);
-
         return;
       }
 
       setMatches((prev) => {
         const merged = [...prev, ...newMatches];
 
-        const unique = Array.from(
+        return Array.from(
           new Map(
-            merged.map((match: any) => [match.metadata.matchId, match]),
-          ).values(),
+            merged.map((match: any) => [
+              match.metadata.matchId,
+              match,
+            ])
+          ).values()
         );
-
-        return unique;
       });
     } finally {
       setLoading(false);
@@ -70,17 +71,31 @@ export default function LoadMoreMatches({
           rounded-xl
           border
           border-indigo-400/30
+
           bg-indigo-950/40
+
+          px-4
           py-3
+
           text-sm
           font-semibold
           text-white
-          transition
+
+          transition-all
+          duration-200
+
           hover:bg-indigo-900/60
+          active:scale-[0.98]
+
+          disabled:cursor-not-allowed
           disabled:opacity-50
+
+          sm:text-base
         "
       >
-        {loading ? "Cargando..." : "Cargar más partidas"}
+        {loading
+          ? "Cargando..."
+          : "Cargar más partidas"}
       </button>
     </>
   );

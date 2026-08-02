@@ -14,7 +14,6 @@ interface RankedInfoProps {
 export default function RankedInfo({
   profile,
 }: RankedInfoProps) {
-
   const winrate =
     profile.totalGames > 0
       ? Math.round(
@@ -35,18 +34,29 @@ export default function RankedInfo({
       : `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier}.png`;
 
   return (
-    <div className="flex items-center gap-6">
+    <div
+      className="
+        flex
+        flex-col
+        items-center
+        gap-6
+        text-center
 
+        lg:flex-row
+        lg:items-center
+        lg:text-left
+      "
+    >
       {/* ICONO */}
       <div
         className="
+          flex
           h-32
           w-32
-          overflow-hidden
-          flex
+          shrink-0
           items-center
           justify-center
-          shrink-0
+          overflow-hidden
         "
       >
         <img
@@ -56,32 +66,41 @@ export default function RankedInfo({
               ? "Unranked"
               : profile.tier
           }
-       className={
-  isUnranked
-    ? `
-      h-30
-      w-30
-      object-contain
-    `
-    : `
-      h-64
-      w-64
-      object-contain
-      scale-[4]
-    `
-}
+          className={
+            isUnranked
+              ? `
+                h-28
+                w-28
+                object-contain
+              `
+              : `
+                h-64
+                w-64
+                object-contain
+                scale-[4]
+              `
+          }
         />
       </div>
 
       {/* INFO */}
-      <div className="flex flex-col">
+      <div
+        className="
+          flex
+          flex-col
+          items-center
 
+          lg:items-start
+        "
+      >
         <h2
           className="
-            text-3xl
+            text-2xl
             font-black
-            text-white
             uppercase
+            text-white
+
+            sm:text-3xl
           "
         >
           {isUnranked
@@ -92,9 +111,11 @@ export default function RankedInfo({
         {!isUnranked && (
           <p
             className="
-              text-xl
+              text-lg
               font-semibold
               text-indigo-300
+
+              sm:text-xl
             "
           >
             {profile.lp} LP
@@ -120,9 +141,7 @@ export default function RankedInfo({
             {winrate}% Winrate
           </p>
         </div>
-
       </div>
-
     </div>
   );
 }
