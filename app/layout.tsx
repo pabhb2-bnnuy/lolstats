@@ -21,7 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-slate-900 scrollbar-thumb-amber-100 bg-[url(/test.png)] ">
+    <html
+      lang="en"
+      className="bg-slate-900 scrollbar-thumb-amber-100 bg-[url(/test.png)]"
+    >
       <body className={`${inter.className} min-h-screen`}>
         <AnimatedBody>
           <Navbar />

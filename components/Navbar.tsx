@@ -61,7 +61,7 @@ export default function Navbar() {
 
         <div>
           <Image
-            src="/mudkip.jpg"
+            src="/lolstats_logo.png"
             alt="Logo de LolStats"
             width={200}
             height={200}

@@ -12,12 +12,19 @@ export default function Searchbar() {
         height={300}
         className="mb-8"
       />
-      <form className="relative w-100">
+      <form className="relative w-100 ">
         <input
           type="text"
           placeholder="Busca un invocador..."
-          className="w-full rounded-full border border-gray-300 py-3 pl-6 pr-14 text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500
-           bg-fuchsia-200/20 text-white text-"
+          className="w-full rounded-full border border-gray-600 py-3 pl-6 pr-14 text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500
+           bg-fuchsia-200/20 text-white bg-linear-to-r
+        from-slate-700
+        via-indigo-950
+        to-slate-900
+        bg-size-[300%_300%]
+        animate-gradient
+        border-t
+      shadow-slate-900"
         />
 
         <button

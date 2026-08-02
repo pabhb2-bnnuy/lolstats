@@ -31,7 +31,7 @@ export default function AnimatedBody({
       {children}
 
       {showOverlay && (
-        <div className="fixed inset-0 z-[9999] bg-black animate-fade-out pointer-events-none" />
+        <div className="fixed inset-0 z-9999 bg-black animate-fade-out pointer-events-none" />
       )}
     </div>
   );
