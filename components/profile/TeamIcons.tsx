@@ -1,53 +1,106 @@
-import { getChampionIcon } from "@/lib/utils/champions";
-
-
-interface Props{
- players:any[];
- champions:Record<string,string>;
+interface Props {
+  players: any[];
+  champions: Record<string, string>;
 }
+
+
+function normalizeChampionName(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/['\s\.&]/g, "");
+}
+
+
+const aliases: Record<string,string> = {
+  kaisa: "kaisa",
+  "kai'sa": "kaisa",
+
+  chogath: "chogath",
+  "cho'gath": "chogath",
+
+  fiddlesticks: "fiddlesticks",
+
+  monkeyking: "wukong",
+
+  nunuwillump: "nunu",
+
+  renata: "renataglasc",
+};
+
 
 
 export default function TeamIcons({
- players,
- champions
-}:Props){
+  players,
+  champions,
+}: Props) {
 
 
-return (
+  return (
 
-<div className="flex gap-1">
+    <div className="flex gap-1">
 
-{
-players.map((p)=>(
+      {
+        players.map((p:any)=>{
 
-<img
 
-key={p.participantId}
+          let key =
+            normalizeChampionName(
+              p.championName
+            );
 
-src={
- getChampionIcon(
-  p.championName,
-  champions
- )
-}
 
-alt={p.championName}
+          if(aliases[key]){
+            key = aliases[key];
+          }
 
-loading="lazy"
 
-className="
-h-5
-w-5
-rounded
-"
+          const icon =
+            champions[key];
 
-/>
 
-))
-}
 
-</div>
+          if(!icon){
+            console.warn(
+              "Icono no encontrado:",
+              p.championName,
+              "->",
+              key
+            );
 
-);
+            return null;
+          }
+
+
+
+          return (
+
+            <img
+
+              key={p.participantId}
+
+              src={icon}
+
+              alt={p.championName}
+
+              loading="lazy"
+
+              className="
+                h-5
+                w-5
+                rounded
+              "
+
+            />
+
+          );
+
+
+        })
+      }
+
+
+    </div>
+
+  );
 
 }

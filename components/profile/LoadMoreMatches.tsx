@@ -7,66 +7,87 @@ import MatchCard from "./MatchCard";
 interface LoadMoreMatchesProps {
   initialMatches: any[];
   puuid: string;
+  champions: Record<string,string>;
 }
 
 
 export default function LoadMoreMatches({
   initialMatches,
   puuid,
+  champions,
 }: LoadMoreMatchesProps) {
 
 
-  const [matches, setMatches] = useState(
-    initialMatches
-  );
+  const [matches, setMatches] =
+    useState(initialMatches);
 
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
 
 
-  async function loadMore() {
+  async function loadMore(){
 
-    try {
+
+    try{
 
       setLoading(true);
 
 
-      const res = await fetch(
-        `/api/matches/${puuid}?start=${matches.length}`
-      );
+      const res =
+        await fetch(
+          `/api/matches/${puuid}?start=${matches.length}`
+        );
 
 
       const newMatches =
         await res.json();
 
 
-setMatches(prev => {
 
-  const merged = [
-    ...prev,
-    ...newMatches,
-  ];
+      if(!Array.isArray(newMatches)){
+        console.error(
+          "Respuesta incorrecta:",
+          newMatches
+        );
 
-
-  const unique = Array.from(
-    new Map(
-      merged.map(
-        (match:any)=>[
-          match.metadata.matchId,
-          match,
-        ]
-      )
-    ).values()
-  );
+        return;
+      }
 
 
-  return unique;
 
-});
+      setMatches(prev=>{
 
 
-    } finally {
+        const merged=[
+          ...prev,
+          ...newMatches,
+        ];
+
+
+
+        const unique =
+          Array.from(
+            new Map(
+              merged.map(
+                (match:any)=>[
+                  match.metadata.matchId,
+                  match,
+                ]
+              )
+            ).values()
+          );
+
+
+
+        return unique;
+
+      });
+
+
+
+    } finally{
 
       setLoading(false);
 
@@ -80,27 +101,41 @@ setMatches(prev => {
 
     <>
 
+
       <div className="space-y-3">
+
 
         {matches.map(
           (match)=>(
+            
             <MatchCard
+
               key={
                 match.metadata.matchId
               }
+
               match={match}
+
               puuid={puuid}
+
+              champions={champions}
+
             />
+
           )
         )}
+
 
       </div>
 
 
 
       <button
+
         onClick={loadMore}
+
         disabled={loading}
+
         className="
           mt-6
           w-full
@@ -116,13 +151,15 @@ setMatches(prev => {
           hover:bg-indigo-900/60
           disabled:opacity-50
         "
+
       >
 
         {
           loading
-          ? "Cargando..."
-          : "Cargar más partidas"
+            ? "Cargando..."
+            : "Cargar más partidas"
         }
+
 
       </button>
 

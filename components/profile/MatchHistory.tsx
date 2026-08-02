@@ -1,28 +1,23 @@
-import MatchCard from "./MatchCard";
-import { getChampionMap } from "@/lib/utils/champions";
+import LoadMoreMatches from "./LoadMoreMatches";
 
 
 interface MatchHistoryProps {
-  matches: any[];
-  puuid: string;
+  matches:any[];
+  puuid:string;
+  champions:Record<string,string>;
 }
 
 
-export default async function MatchHistory({
+export default function MatchHistory({
   matches,
   puuid,
-}: MatchHistoryProps) {
-
-
-  const champions =
-    await getChampionMap();
-
+  champions,
+}:MatchHistoryProps){
 
 
   return (
 
     <div>
-
 
       <h2
         className="
@@ -36,35 +31,19 @@ export default async function MatchHistory({
       </h2>
 
 
+      <LoadMoreMatches
 
-      <div
-        className="
-          space-y-3
-        "
-      >
+        initialMatches={matches}
 
-        {
-          matches.map(
-            (match)=>(
-              
-              <MatchCard
-                key={
-                  match.metadata.matchId
-                }
-                match={match}
-                puuid={puuid}
-                champions={champions}
-              />
+        puuid={puuid}
 
-            )
-          )
-        }
+        champions={champions}
 
-
-      </div>
+      />
 
 
     </div>
 
   );
+
 }

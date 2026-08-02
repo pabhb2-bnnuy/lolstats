@@ -1,6 +1,7 @@
 import RankedInfo from "./RankedInfo";
 import MatchHistory from "./MatchHistory";
 
+
 interface RankedCardProps {
   profile: {
     tier: string;
@@ -10,15 +11,23 @@ interface RankedCardProps {
     losses: number;
     totalGames: number;
 
-    puuid: string;
     matches: any[];
+    puuid: string;
   };
+
+  champions: Record<string,string>;
 }
+
+
 
 export default function RankedCard({
   profile,
+  champions,
 }: RankedCardProps) {
+
+
   return (
+
     <div
       className="
         w-full
@@ -28,7 +37,7 @@ export default function RankedCard({
         border
         border-indigo-500/20
 
-        bg-linear-to-br
+        bg-gradient-to-br
         from-slate-950
         via-indigo-950/30
         to-slate-900
@@ -39,8 +48,14 @@ export default function RankedCard({
         shadow-indigo-950/40
 
         backdrop-blur-md
+
+        transition
+        duration-300
+
+        hover:border-indigo-400/40
       "
     >
+
 
       <div
         className="
@@ -50,7 +65,9 @@ export default function RankedCard({
         "
       >
 
+
         {/* Ranked */}
+
         <div
           className="
             col-span-12
@@ -62,25 +79,45 @@ export default function RankedCard({
             pr-6
           "
         >
-          <RankedInfo profile={profile}/>
+
+          <RankedInfo
+            profile={profile}
+          />
+
         </div>
 
 
-        {/* Matches */}
+
+
+
+        {/* Historial */}
+
         <div
           className="
             col-span-12
             lg:col-span-8
           "
         >
+
           <MatchHistory
+
             matches={profile.matches}
+
             puuid={profile.puuid}
+
+            champions={champions}
+
           />
+
         </div>
+
+
 
       </div>
 
+
     </div>
+
   );
+
 }

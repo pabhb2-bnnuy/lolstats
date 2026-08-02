@@ -2,6 +2,7 @@ import PlayerCard from "@/components/profile/PlayerCard";
 import RankedCard from "@/components/profile/RankedCard";
 
 import { getSummonerProfile } from "@/lib/api/summoner";
+import { getChampions } from "@/lib/utils/championCache";
 
 
 interface PageProps {
@@ -11,6 +12,7 @@ interface PageProps {
     tagLine: string;
   }>;
 }
+
 
 
 export default async function SummonerPage({
@@ -35,32 +37,50 @@ export default async function SummonerPage({
 
 
 
+  const champions =
+    await getChampions();
+
+
+
   return (
 
-    <main className="pt-24 pb-12">
-
-      <div className="
-        mx-auto
-        max-w-7xl
-        px-6
-      ">
+    <main className="pt-20 px-6">
 
 
-        {/* Perfil arriba */}
+      <div
+        className="
+          mx-auto
+          max-w-7xl
+        "
+      >
+
+
+        {/* PERFIL */}
+
         <PlayerCard
+
           gameName={profile.gameName}
+
           tagLine={profile.tagLine}
+
           level={profile.level}
+
           icon={profile.icon}
+
         />
 
 
 
-        {/* Ranked + partidas */}
+        {/* RANKED + PARTIDAS */}
+
         <div className="mt-8">
 
           <RankedCard
+
             profile={profile}
+
+            champions={champions}
+
           />
 
         </div>
@@ -68,7 +88,9 @@ export default async function SummonerPage({
 
       </div>
 
+
     </main>
 
   );
+
 }
