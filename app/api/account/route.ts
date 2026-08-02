@@ -7,18 +7,11 @@ export async function GET(req: NextRequest) {
   const region = req.nextUrl.searchParams.get("region");
 
   if (!gameName || !tagLine || !region) {
-    return NextResponse.json(
-      { error: "Faltan parámetros" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 });
   }
 
   try {
-    const profile = await getSummonerProfile(
-      gameName,
-      tagLine,
-      region
-    );
+    const profile = await getSummonerProfile(gameName, tagLine, region);
 
     console.log(profile);
 
@@ -28,7 +21,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       { error: "Jugador no encontrado" },
-      { status: 404 }
+      { status: 404 },
     );
   }
 }

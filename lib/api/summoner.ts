@@ -2,51 +2,194 @@ import {
   getAccountByRiotId,
   getRankedStats,
   getSummonerByPuuid,
+  getMatchIds,
+  getMatch,
 } from "./riot";
+
 
 export async function getSummonerProfile(
   gameName: string,
   tagLine: string,
-  region: string
+  region: string,
 ) {
-  const account = await getAccountByRiotId(gameName, tagLine);
 
-  const summoner = await getSummonerByPuuid(
+
+  // =========================
+  // 1. Cuenta Riot
+  // =========================
+
+  const account = await getAccountByRiotId(
+    gameName,
+    tagLine
+  );
+
+
+  console.log(
+    "ACCOUNT:",
+    account
+  );
+
+
+
+  // =========================
+  // 2. Perfil invocador
+  // =========================
+
+  const summoner =
+    await getSummonerByPuuid(
+      account.puuid,
+      region
+    );
+
+
+  console.log(
+    "SUMMONER:",
+    summoner
+  );
+
+
+
+  // =========================
+  // 3. Ranked
+  // =========================
+
+  let ranked:any[] = [];
+
+
+ranked =
+  await getRankedStats(
     account.puuid,
     region
   );
 
-  const ranked = await getRankedStats(
-    summoner.id,
-    region
+
+
+  console.log(
+    "RANKED:",
+    ranked
   );
 
-  const solo =
+
+
+  const soloQueue =
     ranked.find(
-      (q: any) => q.queueType === "RANKED_SOLO_5x5"
-    ) ?? null;
+      (queue:any)=>
+        queue.queueType === "RANKED_SOLO_5x5"
+    );
+
+
+
+  // =========================
+  // 4. Partidas
+  // =========================
+
+  const matchIds =
+    await getMatchIds(
+      account.puuid
+    );
+
+
+  console.log(
+    "MATCH IDS:",
+    matchIds
+  );
+
+
+
+const matches = (
+  await Promise.all(
+    matchIds.map(
+      async (id: string) => {
+        try {
+          return await getMatch(id);
+        } catch (error) {
+          console.log(
+            "MATCH FALLIDA:",
+            id
+          );
+
+          return null;
+        }
+      }
+    )
+  )
+).filter(Boolean);
+
+  console.log(
+    "MATCHES:",
+    matches
+  );
+
+
+
+  // =========================
+  // RETURN
+  // =========================
 
   return {
-    gameName: account.gameName,
-    tagLine: account.tagLine,
 
-    level: summoner.summonerLevel,
 
-    icon: summoner.profileIconId,
+    // Identidad
 
-    puuid: account.puuid,
+    gameName:
+      account.gameName,
 
-    tier: solo?.tier ?? "UNRANKED",
 
-    rank: solo?.rank ?? "",
+    tagLine:
+      account.tagLine,
 
-    lp: solo?.leaguePoints ?? 0,
 
-    wins: solo?.wins ?? 0,
 
-    losses: solo?.losses ?? 0,
+    // Perfil
+
+    level:
+      summoner.summonerLevel,
+
+
+    icon:
+      summoner.profileIconId,
+
+
+    puuid:
+      account.puuid,
+
+
+
+    // Ranked
+
+    tier:
+      soloQueue?.tier ?? "UNRANKED",
+
+
+    rank:
+      soloQueue?.rank ?? "",
+
+
+    lp:
+      soloQueue?.leaguePoints ?? 0,
+
+
+    wins:
+      soloQueue?.wins ?? 0,
+
+
+    losses:
+      soloQueue?.losses ?? 0,
+
 
     totalGames:
-      (solo?.wins ?? 0) + (solo?.losses ?? 0),
+      (soloQueue?.wins ?? 0) +
+      (soloQueue?.losses ?? 0),
+
+
+
+    // Partidas
+
+    matches,
+
+
+
+    rankedRaw:
+      ranked,
   };
 }
