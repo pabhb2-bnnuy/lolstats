@@ -9,15 +9,8 @@ import SearchError from "./SearchError";
 import { useSearchSummoner } from "@/hooks/useSearchSummoner";
 
 export default function Searchbar() {
-  const {
-    value,
-    setValue,
-    region,
-    setRegion,
-    loading,
-    error,
-    search,
-  } = useSearchSummoner();
+  const { value, setValue, region, setRegion, loading, error, search } =
+    useSearchSummoner();
 
   return (
     <section className="flex flex-col items-center px-4 pt-32 sm:pt-36 md:pt-44 lg:pt-50">
@@ -25,18 +18,17 @@ export default function Searchbar() {
       <Image
         src="/gnar_main.png"
         alt="Logo LolStats"
-        width={450}
-        height={300}
+        width={380}
+        height={500}
         priority
         className="
-          mb-8
-          h-auto
-          w-64
-          select-none
-          sm:w-72
-          md:w-96
-          lg:w-[450px]
-        "
+    mb-8
+    w-64
+    sm:w-72
+    md:w-96
+    lg:w-[450px]
+    select-none
+  "
       />
 
       {/* Buscador */}
@@ -58,16 +50,9 @@ export default function Searchbar() {
         "
       >
         <div className="flex items-center rounded-full bg-slate-900/95">
-          <RegionSelector
-            value={region}
-            onChange={setRegion}
-          />
+          <RegionSelector value={region} onChange={setRegion} />
 
-          <SearchInput
-            value={value}
-            onChange={setValue}
-            loading={loading}
-          />
+          <SearchInput value={value} onChange={setValue} loading={loading} />
         </div>
       </form>
 

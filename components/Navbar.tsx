@@ -76,21 +76,24 @@ export default function Navbar() {
 
         {/* Centro */}
         <Link href="/">
-          <Image
-            src="/lolstats_logo.png"
-            alt="Logo de LolStats"
-            width={200}
-            height={200}
-            priority
-            className="
-              h-auto
-              w-28
-              sm:w-36
-              md:w-44
-              lg:w-50
-              select-none
-            "
-          />
+<Image
+  src="/lolstats_logo.png"
+  alt="Logo de LolStats"
+  width={200}
+  height={200}
+  priority
+  style={{
+    width: "auto",
+    height: "auto",
+  }}
+  className="
+    w-28
+    sm:w-36
+    md:w-44
+    lg:w-[200px]
+    select-none
+  "
+/>
         </Link>
 
         {/* Derecha */}
@@ -103,6 +106,7 @@ export default function Navbar() {
                 <Image
                   src="/dark_mode.svg"
                   alt="Cambiar tema"
+                  loading="eager"
                   width={24}
                   height={24}
                 />

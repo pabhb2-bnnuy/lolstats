@@ -12,21 +12,21 @@ function normalizeChampionName(name: string) {
 
 
 const aliases: Record<string,string> = {
+
   kaisa: "kaisa",
-  "kai'sa": "kaisa",
 
   chogath: "chogath",
-  "cho'gath": "chogath",
 
   fiddlesticks: "fiddlesticks",
 
   monkeyking: "wukong",
 
-  nunuwillump: "nunu",
+  nunu: "nunuwillump",
+  nunuwillump: "nunuwillump",
 
   renata: "renataglasc",
-};
 
+};
 
 
 export default function TeamIcons({
