@@ -16,10 +16,8 @@ export default function Navbar() {
       if (currentScrollY < 20) {
         setVisible(true);
       } else if (currentScrollY > lastScrollY) {
-        // scrolling down
         setVisible(false);
       } else {
-        // scrolling up
         setVisible(true);
       }
 
@@ -34,51 +32,79 @@ export default function Navbar() {
   return (
     <header
       className={`
-        fixed top-0 left-0 w-full z-50
-        transition-transform duration-300
+        fixed
+        top-0
+        left-0
+        z-50
+        w-full
+        transition-transform
+        duration-300
         ${visible ? "translate-y-0" : "-translate-y-full"}
       `}
     >
       <nav
         className="
-    flex justify-between items-center
-    px-20 py-1
-      bg-linear-to-r
-        from-slate-950
-        via-indigo-950
-        to-slate-900
-        bg-size-[300%_300%]
-        animate-gradient
-        border-t border-white/10
-        shadow-md
-      shadow-slate-900"
+          flex
+          items-center
+          justify-between
+          px-4
+          py-2
+          sm:px-6
+          md:px-10
+          lg:px-20
+          bg-linear-to-r
+          from-slate-950
+          via-indigo-950
+          to-slate-900
+          bg-size-[300%_300%]
+          animate-gradient
+          border-b
+          border-white/10
+          shadow-md
+          shadow-slate-900
+        "
       >
-        <div>
+        {/* Izquierda */}
+        <div className="flex items-center">
           <Link href="/">
-            <Button text="Inicio" className="w-30" />
+            <Button
+              text="Inicio"
+              className="w-24 sm:w-28 md:w-30 text-sm"
+            />
           </Link>
         </div>
 
-        <div>
+        {/* Centro */}
+        <Link href="/">
           <Image
             src="/lolstats_logo.png"
             alt="Logo de LolStats"
             width={200}
             height={200}
+            priority
+            className="
+              h-auto
+              w-28
+              sm:w-36
+              md:w-44
+              lg:w-[200px]
+              select-none
+            "
           />
-        </div>
+        </Link>
 
-        <div className="flex gap-5">
+        {/* Derecha */}
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-5">
           <Link href="">
             <Button
-              text="Tema"
-              className="w-25"
+              text=""
+              className="w-11 sm:w-12 md:w-14"
               image={
                 <Image
                   src="/dark_mode.svg"
-                  alt="theme_swap"
-                  width={27}
-                  height={20}
+                  alt="Cambiar tema"
+                  width={24}
+                  height={24}
                 />
               }
             />
@@ -87,13 +113,13 @@ export default function Navbar() {
           <Link href="">
             <Button
               text=""
-              className="w-13 pl-2"
+              className="w-11 sm:w-12 md:w-14"
               image={
                 <Image
                   src="/language.svg"
-                  alt="language_swap"
-                  width={27}
-                  height={20}
+                  alt="Cambiar idioma"
+                  width={24}
+                  height={24}
                 />
               }
             />

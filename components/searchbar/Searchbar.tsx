@@ -20,19 +20,31 @@ export default function Searchbar() {
   } = useSearchSummoner();
 
   return (
-    <div className="pt-50 flex flex-col items-center">
+    <section className="flex flex-col items-center px-4 pt-32 sm:pt-36 md:pt-44 lg:pt-50">
+      {/* Logo */}
       <Image
         src="/gnar_main.png"
         alt="Logo LolStats"
         width={450}
         height={300}
-        className="mb-8 select-none"
+        priority
+        className="
+          mb-8
+          h-auto
+          w-64
+          select-none
+          sm:w-72
+          md:w-96
+          lg:w-[450px]
+        "
       />
 
+      {/* Buscador */}
       <form
         onSubmit={search}
         className="
-          w-[560px]
+          w-full
+          max-w-[560px]
           rounded-full
           bg-gradient-to-r
           from-slate-700
@@ -59,7 +71,10 @@ export default function Searchbar() {
         </div>
       </form>
 
-      <SearchError error={error} />
-    </div>
+      {/* Error */}
+      <div className="mt-4 w-full max-w-[560px]">
+        <SearchError error={error} />
+      </div>
+    </section>
   );
 }

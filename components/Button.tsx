@@ -1,25 +1,44 @@
 import { ReactNode } from "react";
 
+interface ButtonProps {
+  text: string;
+  image?: ReactNode;
+  className?: string;
+}
+
 export default function Button({
   text,
   image,
   className = "",
-}: {
-  text: string;
-  image?: ReactNode;
-  className?: string;
-}) {
+}: ButtonProps) {
   return (
     <button
-      className={`flex items-center justify-center gap-2
-      border-indigo-500 border-2 rounded-md shadow-xs shadow-indigo-900
-      bg-indigo-600 text-white w-10 h-9
-      hover:bg-blue-800 transition duration-600
-      hover:border-indigo-300 hover:animate-zoom ${className}`}
+      className={`
+        inline-flex
+        items-center
+        justify-center
+        gap-2
+        h-9
+        px-3
+        rounded-md
+        border-2
+        border-indigo-500
+        bg-indigo-600
+        text-white
+        whitespace-nowrap
+        shadow-sm
+        shadow-indigo-900
+        transition-all
+        duration-300
+        hover:bg-blue-800
+        hover:border-indigo-300
+        hover:scale-105
+        ${className}
+      `}
     >
       {image}
 
-      <span>{text}</span>
+      {text && <span>{text}</span>}
     </button>
   );
 }

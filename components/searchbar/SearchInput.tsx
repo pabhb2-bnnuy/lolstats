@@ -13,7 +13,7 @@ export default function SearchInput({
 }: Props) {
   return (
     <>
-      <div className="h-8 w-px bg-slate-700" />
+      <div className="h-8 w-px shrink-0 bg-slate-700" />
 
       <input
         value={value}
@@ -21,11 +21,14 @@ export default function SearchInput({
         type="text"
         placeholder="Faker#KR1"
         className="
+          min-w-0
           flex-1
           bg-transparent
-          px-5
+          px-3
+          sm:px-5
           py-3
-          text-lg
+          text-base
+          sm:text-lg
           text-white
           placeholder:text-gray-400
           outline-none
@@ -36,8 +39,11 @@ export default function SearchInput({
         type="submit"
         disabled={loading}
         className="
-          px-5
+          shrink-0
+          px-3
+          sm:px-5
           transition
+          duration-300
           hover:scale-110
           disabled:opacity-50
         "
