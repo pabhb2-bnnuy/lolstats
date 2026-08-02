@@ -1,14 +1,14 @@
 export async function searchSummoner(
   gameName: string,
   tagLine: string,
-  region: string
+  region: string,
 ) {
   const res = await fetch(
     `/api/account?gameName=${encodeURIComponent(
-      gameName
+      gameName,
     )}&tagLine=${encodeURIComponent(
-      tagLine
-    )}&region=${encodeURIComponent(region)}`
+      tagLine,
+    )}&region=${encodeURIComponent(region)}`,
   );
 
   const data = await res.json();

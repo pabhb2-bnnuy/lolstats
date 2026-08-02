@@ -5,10 +5,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-export default function RegionSelector({
-  value,
-  onChange,
-}: Props) {
+export default function RegionSelector({ value, onChange }: Props) {
   return (
     <div className="relative flex items-center">
       <select
@@ -30,11 +27,7 @@ export default function RegionSelector({
         "
       >
         {REGIONS.map((region) => (
-          <option
-            key={region}
-            value={region}
-            className="bg-slate-900"
-          >
+          <option key={region} value={region} className="bg-slate-900">
             {region}
           </option>
         ))}

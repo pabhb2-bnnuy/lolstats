@@ -6,11 +6,7 @@ interface Props {
   loading: boolean;
 }
 
-export default function SearchInput({
-  value,
-  onChange,
-  loading,
-}: Props) {
+export default function SearchInput({ value, onChange, loading }: Props) {
   return (
     <>
       <div className="h-8 w-px shrink-0 bg-slate-700" />

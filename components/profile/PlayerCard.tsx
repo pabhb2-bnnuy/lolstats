@@ -18,7 +18,7 @@ export default function PlayerCard({
   className="
     mt-4
     flex
-    w-[430px]
+    w-107.5
     items-center
     gap-5
 
@@ -26,7 +26,7 @@ export default function PlayerCard({
     border
     border-slate-700/70
 
-    bg-gradient-to-br
+    bg-linear-to-br
     from-slate-900
     via-slate-900
     to-indigo-950/60

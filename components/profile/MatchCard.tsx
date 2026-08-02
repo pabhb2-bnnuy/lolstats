@@ -1,11 +1,6 @@
-import {
-  getQueueName,
-  getQueueColor,
-} from "@/lib/utils/matches";
+import { getQueueName, getQueueColor } from "@/lib/utils/matches";
 
-import {
-  getChampionIcon,
-} from "@/lib/utils/champions";
+import { getChampionIcon } from "@/lib/utils/champions";
 
 import {
   getMatchPlayer,
@@ -15,49 +10,25 @@ import {
 
 import TeamIcons from "./TeamIcons";
 
-
 interface MatchCardProps {
   match: any;
   puuid: string;
-  champions: Record<string,string>;
+  champions: Record<string, string>;
 }
-export default function MatchCard({
-  match,
-  puuid,
-  champions,
-}: MatchCardProps) {
-
-
-  const player = getMatchPlayer(
-    match,
-    puuid
-  );
-
+export default function MatchCard({ match, puuid, champions }: MatchCardProps) {
+  const player = getMatchPlayer(match, puuid);
 
   if (!player) {
     return null;
   }
 
-
   const win = player.win;
 
+  const teamMates = getTeamPlayers(match, player.teamId);
 
-
-  const teamMates = getTeamPlayers(
-    match,
-    player.teamId
-  );
-
-
-  const enemies = getEnemyPlayers(
-    match,
-    player.teamId
-  );
-
-
+  const enemies = getEnemyPlayers(match, player.teamId);
 
   return (
-
     <div
       className={`
         rounded-xl
@@ -73,15 +44,14 @@ export default function MatchCard({
           win
             ? `
               border-emerald-400/40
-              bg-gradient-to-br
+              bg-linear-to-br
               from-emerald-900/50
               via-slate-900
               to-indigo-950/80
             `
-            :
-            `
+            : `
               border-rose-400/40
-              bg-gradient-to-br
+              bg-linear-to-br
               from-rose-900/50
               via-slate-900
               to-indigo-950/80
@@ -89,8 +59,6 @@ export default function MatchCard({
         }
       `}
     >
-
-
       <div
         className="
           flex
@@ -99,9 +67,6 @@ export default function MatchCard({
           gap-6
         "
       >
-
-
-
         {/* TU CAMPEÓN */}
         <div
           className="
@@ -110,16 +75,15 @@ export default function MatchCard({
             gap-3
           "
         >
-
           <img
-       src={
-  champions[
-    player.championName
-      .replace("'","")
-      .replace(" ","")
-      .toLowerCase()
-  ]
-}
+            src={
+              champions[
+                player.championName
+                  .replace("'", "")
+                  .replace(" ", "")
+                  .toLowerCase()
+              ]
+            }
             alt={player.championName}
             loading="lazy"
             className="
@@ -129,9 +93,7 @@ export default function MatchCard({
             "
           />
 
-
           <div>
-
             <h3
               className="
                 text-lg
@@ -142,29 +104,16 @@ export default function MatchCard({
               {player.championName}
             </h3>
 
-
             <p
               className="
                 text-sm
                 text-slate-400
               "
             >
-              {player.kills}
-              /
-              {player.deaths}
-              /
-              {player.assists}
+              {player.kills}/{player.deaths}/{player.assists}
             </p>
-
-
           </div>
-
-
         </div>
-
-
-
-
 
         {/* EQUIPOS */}
         <div
@@ -175,24 +124,10 @@ export default function MatchCard({
             ml-auto
           "
         >
+          <TeamIcons players={teamMates} champions={champions} />
 
-      <TeamIcons
-  players={teamMates}
-  champions={champions}
-/>
-
-
-     <TeamIcons
-  players={enemies}
-  champions={champions}
-/>
-
+          <TeamIcons players={enemies} champions={champions} />
         </div>
-
-
-
-
-
 
         {/* INFO PARTIDA */}
         <div
@@ -202,42 +137,20 @@ export default function MatchCard({
             min-w-28
           "
         >
-
           <p
             className={`
               ${getQueueColor(match.info.queueId)}
               font-medium
             `}
           >
-            {getQueueName(
-              match.info.queueId
-            )}
+            {getQueueName(match.info.queueId)}
           </p>
 
-
-          <p
-            className={
-              win
-                ? "text-emerald-400"
-                : "text-rose-400"
-            }
-          >
-            {
-              win
-                ? "Victoria"
-                : "Derrota"
-            }
+          <p className={win ? "text-emerald-400" : "text-rose-400"}>
+            {win ? "Victoria" : "Derrota"}
           </p>
-
-
         </div>
-
-
-
       </div>
-
-
     </div>
-
   );
 }

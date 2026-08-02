@@ -1,15 +1,10 @@
 import { getChampions } from "./championCache";
 
-
-function normalizeChampionName(name:string) {
-  return name
-    .toLowerCase()
-    .replace(/['\s\.&]/g, "");
+function normalizeChampionName(name: string) {
+  return name.toLowerCase().replace(/['\s\.&]/g, "");
 }
 
-
-const aliases: Record<string,string> = {
-
+const aliases: Record<string, string> = {
   kaisa: "kaisa",
 
   fiddlesticks: "fiddlesticks",
@@ -24,33 +19,21 @@ const aliases: Record<string,string> = {
   renata: "renataglasc",
 
   leesin: "leesin",
-
 };
 
-
-
-export async function getChampionMap(){
-
+export async function getChampionMap() {
   return await getChampions();
-
 }
 
-
-
 export function getChampionIcon(
-  championName:string,
-  champions:Record<string,string>
-){
+  championName: string,
+  champions: Record<string, string>,
+) {
+  let key = normalizeChampionName(championName);
 
-  let key =
-    normalizeChampionName(championName);
-
-
-  if(aliases[key]){
+  if (aliases[key]) {
     key = aliases[key];
   }
 
-
   return champions[key] ?? "";
-
 }

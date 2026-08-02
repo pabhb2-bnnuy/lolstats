@@ -6,11 +6,7 @@ interface ButtonProps {
   className?: string;
 }
 
-export default function Button({
-  text,
-  image,
-  className = "",
-}: ButtonProps) {
+export default function Button({ text, image, className = "" }: ButtonProps) {
   return (
     <button
       className={`

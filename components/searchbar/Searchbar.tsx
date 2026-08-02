@@ -26,7 +26,7 @@ export default function Searchbar() {
     w-64
     sm:w-72
     md:w-96
-    lg:w-[450px]
+    lg:w-112.5
     select-none
   "
       />
@@ -36,15 +36,15 @@ export default function Searchbar() {
         onSubmit={search}
         className="
           w-full
-          max-w-[560px]
+          max-w-140
           rounded-full
-          bg-gradient-to-r
+          bg-linear-to-r
           from-slate-700
           via-indigo-600
           to-fuchsia-600
-          bg-[length:300%_300%]
+          bg-size-[300%_300%]
           animate-gradient
-          p-[2px]
+          p-0.5
           shadow-xl
           shadow-indigo-900/40
         "
@@ -57,7 +57,7 @@ export default function Searchbar() {
       </form>
 
       {/* Error */}
-      <div className="mt-4 w-full max-w-[560px]">
+      <div className="mt-4 w-full max-w-140">
         <SearchError error={error} />
       </div>
     </section>

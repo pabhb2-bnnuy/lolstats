@@ -31,8 +31,8 @@ export function useSearchSummoner() {
 
       router.push(
         `/summoner/${encodeURIComponent(region)}/${encodeURIComponent(
-          gameName
-        )}/${encodeURIComponent(tagLine)}`
+          gameName,
+        )}/${encodeURIComponent(tagLine)}`,
       );
     } catch (err) {
       if (err instanceof Error) {

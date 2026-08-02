@@ -37,7 +37,7 @@ export default function RankedCard({
         border
         border-indigo-500/20
 
-        bg-gradient-to-br
+        bg-linear-to-br
         from-slate-950
         via-indigo-950/30
         to-slate-900

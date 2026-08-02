@@ -1,48 +1,24 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 
 interface Props {
-  champion:string;
-  className?:string;
+  champion: string;
+  className?: string;
 }
 
+export default function ChampionIcon({ champion, className }: Props) {
+  const [src, setSrc] = useState("");
 
-export default function ChampionIcon({
-  champion,
-  className
-}:Props){
+  useEffect(() => {
+    fetch(`/api/champion/${champion}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSrc(data.icon);
+      });
+  }, [champion]);
 
-  const [src,setSrc] =
-    useState("");
+  if (!src) return null;
 
-
-  useEffect(()=>{
-
-    fetch(
-      `/api/champion/${champion}`
-    )
-    .then(res=>res.json())
-    .then(data=>{
-      setSrc(data.icon);
-    });
-
-  },[champion]);
-
-
-  if(!src)
-    return null;
-
-
-  return (
-    <img
-      src={src}
-      alt={champion}
-      className={className}
-    />
-  );
+  return <img src={src} alt={champion} className={className} />;
 }

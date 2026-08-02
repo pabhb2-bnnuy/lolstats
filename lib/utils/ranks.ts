@@ -12,7 +12,6 @@ export const RANK_NAMES: Record<string, string> = {
   UNRANKED: "Sin Clasificar",
 };
 
-
 export function translateRank(rank: string) {
   return RANK_NAMES[rank.toUpperCase()] ?? rank;
 }

@@ -1,24 +1,18 @@
 import LoadMoreMatches from "./LoadMoreMatches";
 
-
 interface MatchHistoryProps {
-  matches:any[];
-  puuid:string;
-  champions:Record<string,string>;
+  matches: any[];
+  puuid: string;
+  champions: Record<string, string>;
 }
-
 
 export default function MatchHistory({
   matches,
   puuid,
   champions,
-}:MatchHistoryProps){
-
-
+}: MatchHistoryProps) {
   return (
-
     <div>
-
       <h2
         className="
           mb-4
@@ -30,20 +24,11 @@ export default function MatchHistory({
         Últimas partidas
       </h2>
 
-
       <LoadMoreMatches
-
         initialMatches={matches}
-
         puuid={puuid}
-
         champions={champions}
-
       />
-
-
     </div>
-
   );
-
 }

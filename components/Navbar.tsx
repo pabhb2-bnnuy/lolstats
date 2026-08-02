@@ -67,33 +67,30 @@ export default function Navbar() {
         {/* Izquierda */}
         <div className="flex items-center">
           <Link href="/">
-            <Button
-              text="Inicio"
-              className="w-24 sm:w-28 md:w-30 text-sm"
-            />
+            <Button text="Inicio" className="w-24 sm:w-28 md:w-30 text-sm" />
           </Link>
         </div>
 
         {/* Centro */}
         <Link href="/">
-<Image
-  src="/lolstats_logo.png"
-  alt="Logo de LolStats"
-  width={200}
-  height={200}
-  priority
-  style={{
-    width: "auto",
-    height: "auto",
-  }}
-  className="
+          <Image
+            src="/lolstats_logo.png"
+            alt="Logo de LolStats"
+            width={200}
+            height={200}
+            priority
+            style={{
+              width: "auto",
+              height: "auto",
+            }}
+            className="
     w-28
     sm:w-36
     md:w-44
-    lg:w-[200px]
+    lg:w-50
     select-none
   "
-/>
+          />
         </Link>
 
         {/* Derecha */}
