@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAccountByRiotId } from "@/lib/api/riot";
+import { getSummonerProfile } from "@/lib/api/summoner";
 
 export async function GET(req: NextRequest) {
   const gameName = req.nextUrl.searchParams.get("gameName");
@@ -14,26 +14,20 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const account = await getAccountByRiotId(
+    const profile = await getSummonerProfile(
       gameName,
       tagLine,
       region
     );
 
-    return NextResponse.json(account);
+    console.log(profile);
+
+    return NextResponse.json(profile);
   } catch (err) {
-    if (err instanceof Error && err.message === "REGION_MISMATCH") {
-      return NextResponse.json(
-        {
-          error:
-            "Ese Riot ID no pertenece a la región seleccionada.",
-        },
-        { status: 404 }
-      );
-    }
+    console.error(err);
 
     return NextResponse.json(
-      { error: "Jugador no encontrado." },
+      { error: "Jugador no encontrado" },
       { status: 404 }
     );
   }

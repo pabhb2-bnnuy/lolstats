@@ -1,51 +1,29 @@
 const API_KEY = process.env.RIOT_API_KEY!;
 
-const ACCOUNT_HOSTS: Record<string, string> = {
-  EUW: "europe.api.riotgames.com",
-  EUNE: "europe.api.riotgames.com",
-  TR: "europe.api.riotgames.com",
-  RU: "europe.api.riotgames.com",
-
-  NA: "americas.api.riotgames.com",
-  BR: "americas.api.riotgames.com",
-  LAN: "americas.api.riotgames.com",
-  LAS: "americas.api.riotgames.com",
-
-  KR: "asia.api.riotgames.com",
-  JP: "asia.api.riotgames.com",
-
-  OCE: "sea.api.riotgames.com",
+const PLATFORMS: Record<string, string> = {
+  EUW: "euw1",
+  EUNE: "eun1",
+  NA: "na1",
+  KR: "kr",
+  JP: "jp1",
+  BR: "br1",
+  LAN: "la1",
+  LAS: "la2",
+  OCE: "oc1",
+  TR: "tr1",
+  RU: "ru",
 };
 
-const PLATFORM_HOSTS: Record<string, string> = {
-  EUW: "euw1.api.riotgames.com",
-  EUNE: "eun1.api.riotgames.com",
-  NA: "na1.api.riotgames.com",
-  KR: "kr.api.riotgames.com",
-  JP: "jp1.api.riotgames.com",
-  BR: "br1.api.riotgames.com",
-  LAN: "la1.api.riotgames.com",
-  LAS: "la2.api.riotgames.com",
-  OCE: "oc1.api.riotgames.com",
-  TR: "tr1.api.riotgames.com",
-  RU: "ru.api.riotgames.com",
-};
+function platform(region: string) {
+  return PLATFORMS[region.toUpperCase()];
+}
 
 export async function getAccountByRiotId(
   gameName: string,
-  tagLine: string,
-  region: string
+  tagLine: string
 ) {
-  const accountHost = ACCOUNT_HOSTS[region];
-  const platformHost = PLATFORM_HOSTS[region];
-
-  if (!accountHost || !platformHost) {
-    throw new Error("Región inválida");
-  }
-
-  // Buscar la cuenta Riot
-  const accountResponse = await fetch(
-    `https://${accountHost}/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(
+  const res = await fetch(
+    `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(
       gameName
     )}/${encodeURIComponent(tagLine)}`,
     {
@@ -56,15 +34,17 @@ export async function getAccountByRiotId(
     }
   );
 
-  if (!accountResponse.ok) {
-    throw new Error("Jugador no encontrado");
-  }
+  if (!res.ok) throw new Error("Jugador no encontrado");
 
-  const account = await accountResponse.json();
+  return res.json();
+}
 
-  // Comprobar que existe en el servidor seleccionado
-  const summonerResponse = await fetch(
-    `https://${platformHost}/lol/summoner/v4/summoners/by-puuid/${account.puuid}`,
+export async function getSummonerByPuuid(
+  puuid: string,
+  region: string
+) {
+  const res = await fetch(
+    `https://${platform(region)}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       headers: {
         "X-Riot-Token": API_KEY,
@@ -73,9 +53,26 @@ export async function getAccountByRiotId(
     }
   );
 
-  if (!summonerResponse.ok) {
-    throw new Error("REGION_MISMATCH");
-  }
+  if (!res.ok) throw new Error("Summoner no encontrado");
 
-  return account;
+  return res.json();
+}
+
+export async function getRankedStats(
+  summonerId: string,
+  region: string
+) {
+  const res = await fetch(
+    `https://${platform(region)}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`,
+    {
+      headers: {
+        "X-Riot-Token": API_KEY,
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) return [];
+
+  return res.json();
 }

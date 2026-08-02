@@ -87,7 +87,7 @@ export default function Navbar() {
               w-28
               sm:w-36
               md:w-44
-              lg:w-[200px]
+              lg:w-50
               select-none
             "
           />
