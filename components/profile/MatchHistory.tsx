@@ -1,4 +1,5 @@
 import MatchCard from "./MatchCard";
+import { getChampionMap } from "@/lib/utils/champions";
 
 
 interface MatchHistoryProps {
@@ -7,14 +8,21 @@ interface MatchHistoryProps {
 }
 
 
-export default function MatchHistory({
+export default async function MatchHistory({
   matches,
   puuid,
 }: MatchHistoryProps) {
 
 
+  const champions =
+    await getChampionMap();
+
+
+
   return (
+
     <div>
+
 
       <h2
         className="
@@ -28,24 +36,35 @@ export default function MatchHistory({
       </h2>
 
 
-      <div className="space-y-3">
 
-        {matches.map(
-          (match) => (
+      <div
+        className="
+          space-y-3
+        "
+      >
 
-            <MatchCard
-              key={
-                match.metadata.matchId
-              }
-              match={match}
-              puuid={puuid}
-            />
+        {
+          matches.map(
+            (match)=>(
+              
+              <MatchCard
+                key={
+                  match.metadata.matchId
+                }
+                match={match}
+                puuid={puuid}
+                champions={champions}
+              />
 
+            )
           )
-        )}
+        }
+
 
       </div>
 
+
     </div>
+
   );
 }

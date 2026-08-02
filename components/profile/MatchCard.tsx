@@ -1,45 +1,63 @@
-import { getQueueName, getQueueColor } from "@/lib/utils/matches";
+import {
+  getQueueName,
+  getQueueColor,
+} from "@/lib/utils/matches";
+
+import {
+  getChampionIcon,
+} from "@/lib/utils/champions";
+
+import {
+  getMatchPlayer,
+  getTeamPlayers,
+  getEnemyPlayers,
+} from "@/lib/utils/matchPlayers";
+
+import TeamIcons from "./TeamIcons";
+
 
 interface MatchCardProps {
   match: any;
   puuid: string;
+  champions: Record<string,string>;
 }
-
 export default function MatchCard({
   match,
   puuid,
+  champions,
 }: MatchCardProps) {
 
-  const player =
-    match.info.participants.find(
-      (p: any) => p.puuid === puuid
-    );
 
-  if (!player) return null;
+  const player = getMatchPlayer(
+    match,
+    puuid
+  );
+
+
+  if (!player) {
+    return null;
+  }
 
 
   const win = player.win;
 
 
-  const allies =
-    match.info.participants.filter(
-      (p: any) =>
-        p.teamId === player.teamId
-    );
+
+  const teamMates = getTeamPlayers(
+    match,
+    player.teamId
+  );
 
 
-  const enemies =
-    match.info.participants.filter(
-      (p: any) =>
-        p.teamId !== player.teamId
-    );
+  const enemies = getEnemyPlayers(
+    match,
+    player.teamId
+  );
 
-
-  const championIcon = (name: string) =>
-    `https://ddragon.leagueoflegends.com/cdn/15.15.1/img/champion/${name}.png`;
 
 
   return (
+
     <div
       className={`
         rounded-xl
@@ -48,6 +66,7 @@ export default function MatchCard({
 
         transition
         duration-300
+
         hover:scale-[1.02]
 
         ${
@@ -59,7 +78,8 @@ export default function MatchCard({
               via-slate-900
               to-indigo-950/80
             `
-            : `
+            :
+            `
               border-rose-400/40
               bg-gradient-to-br
               from-rose-900/50
@@ -70,78 +90,107 @@ export default function MatchCard({
       `}
     >
 
-      <div className="flex items-center gap-4">
+
+      <div
+        className="
+          flex
+          items-center
+          justify-between
+          gap-6
+        "
+      >
 
 
-        {/* ICONOS EQUIPO */}
-        <div className="flex flex-col gap-1">
 
-          <div className="flex gap-1">
-            {allies.map((champ: any) => (
-              <img
-                key={champ.participantId}
-                src={championIcon(champ.championName)}
-                className="
-                  h-6
-                  w-6
-                  rounded
-                  object-cover
-                "
-                alt=""
-              />
-            ))}
+        {/* TU CAMPEÓN */}
+        <div
+          className="
+            flex
+            items-center
+            gap-3
+          "
+        >
+
+          <img
+       src={
+  champions[
+    player.championName
+      .replace("'","")
+      .replace(" ","")
+      .toLowerCase()
+  ]
+}
+            alt={player.championName}
+            loading="lazy"
+            className="
+              h-12
+              w-12
+              rounded-lg
+            "
+          />
+
+
+          <div>
+
+            <h3
+              className="
+                text-lg
+                font-bold
+                text-white
+              "
+            >
+              {player.championName}
+            </h3>
+
+
+            <p
+              className="
+                text-sm
+                text-slate-400
+              "
+            >
+              {player.kills}
+              /
+              {player.deaths}
+              /
+              {player.assists}
+            </p>
+
+
           </div>
 
-
-          <div className="flex gap-1">
-            {enemies.map((champ: any) => (
-              <img
-                key={champ.participantId}
-                src={championIcon(champ.championName)}
-                className="
-                  h-6
-                  w-6
-                  rounded
-                  object-cover
-                  opacity-70
-                "
-                alt=""
-              />
-            ))}
-          </div>
 
         </div>
 
 
 
-        {/* DATOS DEL PLAYER */}
-        <div className="flex-1">
-
-          <h3
-            className="
-              text-lg
-              font-bold
-              text-white
-            "
-          >
-            {player.championName}
-          </h3>
 
 
-          <p
-            className="
-              text-sm
-              text-slate-400
-            "
-          >
-            {player.kills}
-            /
-            {player.deaths}
-            /
-            {player.assists}
-          </p>
+        {/* EQUIPOS */}
+        <div
+          className="
+            flex
+            flex-col
+            gap-1
+            ml-auto
+          "
+        >
+
+      <TeamIcons
+  players={teamMates}
+  champions={champions}
+/>
+
+
+     <TeamIcons
+  players={enemies}
+  champions={champions}
+/>
 
         </div>
+
+
+
 
 
 
@@ -150,6 +199,7 @@ export default function MatchCard({
           className="
             text-right
             text-sm
+            min-w-28
           "
         >
 
@@ -159,15 +209,35 @@ export default function MatchCard({
               font-medium
             `}
           >
-            {getQueueName(match.info.queueId)}
+            {getQueueName(
+              match.info.queueId
+            )}
+          </p>
+
+
+          <p
+            className={
+              win
+                ? "text-emerald-400"
+                : "text-rose-400"
+            }
+          >
+            {
+              win
+                ? "Victoria"
+                : "Derrota"
+            }
           </p>
 
 
         </div>
 
 
+
       </div>
 
+
     </div>
+
   );
 }

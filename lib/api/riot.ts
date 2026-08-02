@@ -179,12 +179,15 @@ export async function getRankedStats(
 // MATCH HISTORY
 // =========================
 
+
 export async function getMatchIds(
-  puuid:string
+  puuid:string,
+  start:number = 0,
+  count:number = 10
 ){
 
   const res = await fetch(
-    `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10`,
+    `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
     {
       headers:{
         "X-Riot-Token":API_KEY,
@@ -197,20 +200,21 @@ export async function getMatchIds(
   if(!res.ok){
 
     console.log(
-      "MATCH IDS ERROR",
+      "MATCH IDS ERROR:",
       res.status,
       await res.text()
     );
 
+
     throw new Error(
-      "Error obteniendo partidas"
+      "No se pudieron obtener partidas"
     );
   }
 
 
   return res.json();
-}
 
+}
 
 
 export async function getMatch(
