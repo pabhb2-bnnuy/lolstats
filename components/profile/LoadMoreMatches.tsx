@@ -22,7 +22,7 @@ export default function LoadMoreMatches({
       setLoading(true);
 
       const res = await fetch(
-        `/api/matches/${puuid}?start=${matches.length}`
+        `/api/matches/${puuid}?start=${matches.length}&count=5`,
       );
 
       const newMatches = await res.json();
@@ -37,11 +37,8 @@ export default function LoadMoreMatches({
 
         return Array.from(
           new Map(
-            merged.map((match: any) => [
-              match.metadata.matchId,
-              match,
-            ])
-          ).values()
+            merged.map((match: any) => [match.metadata.matchId, match]),
+          ).values(),
         );
       });
     } finally {
@@ -93,9 +90,7 @@ export default function LoadMoreMatches({
           sm:text-base
         "
       >
-        {loading
-          ? "Cargando..."
-          : "Cargar más partidas"}
+        {loading ? "Cargando..." : "Cargar más partidas"}
       </button>
     </>
   );

@@ -3,7 +3,6 @@ import {
   getMatch,
 } from "@/lib/api/riot";
 
-
 export async function GET(
   req: Request,
   {
@@ -14,73 +13,54 @@ export async function GET(
     }>;
   }
 ) {
+  const { puuid } = await params;
 
+  const url = new URL(req.url);
 
-  const {
-    puuid,
-  } = await params;
+  const start = Number(
+    url.searchParams.get("start") ?? "0"
+  );
 
-
-
-  const {
-    searchParams,
-  } = new URL(req.url);
-
-
-
-  const start =
-    Number(
-      searchParams.get("start") ?? 0
-    );
-
-
+  const count = Number(
+    url.searchParams.get("count") ?? "10"
+  );
 
   try {
+    const matchIds = await getMatchIds(
+      puuid,
+      start,
+      count
+    );
 
-
-    const matchIds =
-      await getMatchIds(
-        puuid,
-        start
-      );
-
-
-
-    const matches =
+    const matches = (
       await Promise.all(
-        matchIds.map(
-          (id:string)=>
-            getMatch(id)
-        )
-      );
+        matchIds.map(async (id: string) => {
+          try {
+            return await getMatch(id);
+          } catch (err) {
+            console.log(
+              "MATCH ERROR:",
+              id,
+              err
+            );
+            return null;
+          }
+        })
+      )
+    ).filter(Boolean);
 
+   return Response.json(matches);
 
+  } catch (err) {
 
-    return Response.json(
-      matches
+    console.log(
+      "MATCHES API ERROR:",
+      err
     );
 
-
-
-  } catch(error) {
-
-
-    console.error(
-      "MATCH API ERROR:",
-      error
-    );
-
-
-    return Response.json(
-      {
-        error:
-          "No se pudieron cargar partidas"
-      },
-      {
-        status:500
-      }
-    );
+ return Response.json([], {
+  status: 500,
+});
 
   }
-
 }

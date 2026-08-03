@@ -25,36 +25,13 @@ function platform(region: string) {
 }
 
 // =========================
-// ACCOUNT API
+// ACCOUNT RIOT ID
 // =========================
 
 export async function getAccountByRiotId(gameName: string, tagLine: string) {
   const res = await fetch(
     `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(gameName)}/${encodeURIComponent(tagLine)}`,
-    {
-      headers: {
-        "X-Riot-Token": API_KEY,
-      },
-      cache: "no-store",
-    },
-  );
 
-  if (!res.ok) {
-    console.log("ACCOUNT ERROR", res.status, await res.text());
-
-    throw new Error("Cuenta no encontrada");
-  }
-
-  return res.json();
-}
-
-// =========================
-// SUMMONER API
-// =========================
-
-export async function getSummonerByPuuid(puuid: string, region: string) {
-  const res = await fetch(
-    `https://${platform(region)}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       headers: {
         "X-Riot-Token": API_KEY,
@@ -65,7 +42,44 @@ export async function getSummonerByPuuid(puuid: string, region: string) {
 
   const data = await res.json();
 
-  console.log("SUMMONER:", data);
+  if (!res.ok) {
+    console.log("ACCOUNT ERROR", data);
+
+    throw new Error("Cuenta no encontrada");
+  }
+
+  return data;
+}
+
+// =========================
+// SUMMONER BY PUUID
+// =========================
+
+export async function getSummonerByPuuid(
+  puuid: string,
+  region: string,
+) {
+  const url =
+    `https://${platform(region)}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
+
+  console.log("SUMMONER URL:", url);
+
+  const res = await fetch(url, {
+    headers: {
+      "X-Riot-Token": API_KEY,
+    },
+    cache: "no-store",
+  });
+
+  console.log("========== HEADERS ==========");
+  console.log(Object.fromEntries(res.headers.entries()));
+  console.log("=============================");
+
+  const data = await res.json();
+
+  console.log("========== SUMMONER OBJECT ==========");
+  console.dir(data, { depth: null });
+  console.log("=====================================");
 
   if (!res.ok) {
     throw new Error("Summoner no encontrado");
@@ -73,15 +87,14 @@ export async function getSummonerByPuuid(puuid: string, region: string) {
 
   return data;
 }
-
 // =========================
-// RANKED API
+// SUMMONER BY NAME
 // =========================
 
-export async function getRankedStats(puuid: string, region: string) {
-  const url = `https://${platform(region)}.api.riotgames.com/lol/league/v4/entries/by-puuid/${puuid}`;
+export async function getSummonerByName(name: string, region: string) {
+  const url = `https://${platform(region)}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${encodeURIComponent(name)}`;
 
-  console.log("RANK URL:", url);
+  console.log("SUMMONER NAME URL", url);
 
   const res = await fetch(url, {
     headers: {
@@ -92,19 +105,44 @@ export async function getRankedStats(puuid: string, region: string) {
 
   const text = await res.text();
 
-  console.log("RANK STATUS:", res.status);
-
-  console.log("RANK RESPONSE:", text);
+  console.log("SUMMONER NAME RESPONSE", text);
 
   if (!res.ok) {
-    throw new Error(`Rank error ${res.status}`);
+    throw new Error("Summoner name no encontrado");
   }
 
   return JSON.parse(text);
 }
 
 // =========================
-// MATCH HISTORY
+// RANKED
+// =========================
+
+export async function getRankedStats(puuid: string, region: string) {
+  const res = await fetch(
+    `https://${platform(region)}.api.riotgames.com/lol/league/v4/entries/by-puuid/${puuid}`,
+
+    {
+      headers: {
+        "X-Riot-Token": API_KEY,
+      },
+      cache: "no-store",
+    },
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    console.log("RANK ERROR", data);
+
+    throw new Error("Rank error");
+  }
+
+  return data;
+}
+
+// =========================
+// MATCH IDS
 // =========================
 
 export async function getMatchIds(
@@ -114,6 +152,7 @@ export async function getMatchIds(
 ) {
   const res = await fetch(
     `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
+
     {
       headers: {
         "X-Riot-Token": API_KEY,
@@ -123,17 +162,20 @@ export async function getMatchIds(
   );
 
   if (!res.ok) {
-    console.log("MATCH IDS ERROR:", res.status, await res.text());
-
-    throw new Error("No se pudieron obtener partidas");
+    throw new Error("No se pudieron cargar partidas");
   }
 
   return res.json();
 }
 
+// =========================
+// MATCH DETAIL
+// =========================
+
 export async function getMatch(matchId: string) {
   const res = await fetch(
     `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}`,
+
     {
       headers: {
         "X-Riot-Token": API_KEY,
@@ -147,4 +189,45 @@ export async function getMatch(matchId: string) {
   }
 
   return res.json();
+}
+
+// =========================
+// LIVE GAME
+// =========================
+
+export async function getLiveGame(
+  puuid: string,
+  region: string,
+) {
+  console.log("LIVE PUUID:", puuid);
+
+  const url =
+    `https://${platform(region)}.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${puuid}`;
+
+  console.log("SPECTATOR URL:", url);
+
+  const res = await fetch(url, {
+    headers: {
+      "X-Riot-Token": API_KEY,
+    },
+    cache: "no-store",
+  });
+
+  console.log("SPECTATOR STATUS:", res.status);
+
+  if (res.status === 404) {
+    console.log("NO ESTÁ EN PARTIDA");
+    return null;
+  }
+
+  const text = await res.text();
+
+  console.log("SPECTATOR RESPONSE:");
+  console.log(text);
+
+  if (!res.ok) {
+    return null;
+  }
+
+  return JSON.parse(text);
 }

@@ -90,21 +90,7 @@ export default function Navbar() {
 
         {/* Derecha */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-5">
-          <Image
-            src="/language.svg"
-            alt="Cambiar idioma"
-            width={16}
-            height={24}
-            className="invert"
-          />
-          <Image
-            src="/dark_mode.svg"
-            alt="Cambiar tema"
-            loading="eager"
-            width={17}
-            height={24}
-            className="invert"
-          />
+   
         </div>
       </nav>
     </header>

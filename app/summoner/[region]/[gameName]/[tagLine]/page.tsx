@@ -1,5 +1,6 @@
 import PlayerCard from "@/components/profile/PlayerCard";
 import RankedCard from "@/components/profile/RankedCard";
+import LiveGameButton from "@/components/profile/LiveGameButton";
 
 import { getSummonerProfile } from "@/lib/api/summoner";
 import { getChampions } from "@/lib/utils/championCache";
@@ -12,24 +13,16 @@ interface PageProps {
   }>;
 }
 
-export default async function SummonerPage({
-  params,
-}: PageProps) {
-  const {
-    region,
-    gameName,
-    tagLine,
-  } = await params;
+export default async function SummonerPage({ params }: PageProps) {
+  const { region, gameName, tagLine } = await params;
 
-  const profile =
-    await getSummonerProfile(
-      decodeURIComponent(gameName),
-      decodeURIComponent(tagLine),
-      decodeURIComponent(region)
-    );
+  const profile = await getSummonerProfile(
+    decodeURIComponent(gameName),
+    decodeURIComponent(tagLine),
+    decodeURIComponent(region),
+  );
 
-  const champions =
-    await getChampions();
+  const champions = await getChampions();
 
   return (
     <main
@@ -48,18 +41,30 @@ export default async function SummonerPage({
           max-w-7xl
         "
       >
-        <PlayerCard
-          gameName={profile.gameName}
-          tagLine={profile.tagLine}
-          level={profile.level}
-          icon={profile.icon}
-        />
+<div
+  className="
+    flex
+    flex-col
+    gap-4
+
+    sm:flex-row
+    sm:items-center
+  "
+>
+  <PlayerCard
+    gameName={profile.gameName}
+    tagLine={profile.tagLine}
+    level={profile.level}
+    icon={profile.icon}
+  />
+<LiveGameButton
+  summonerId={profile.puuid}
+  region={region}
+/>
+</div>
 
         <div className="mt-6 sm:mt-8">
-          <RankedCard
-            profile={profile}
-            champions={champions}
-          />
+          <RankedCard profile={profile} champions={champions} />
         </div>
       </div>
     </main>
