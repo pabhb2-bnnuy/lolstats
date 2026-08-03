@@ -1,5 +1,28 @@
 const API_KEY = process.env.RIOT_API_KEY!;
 
+// =========================
+// LIVE CACHE
+// =========================
+
+const playerCache =
+  new Map<
+    string,
+    {
+      time:number;
+      data:any;
+    }
+  >();
+
+
+const liveCache =
+  new Map<
+    string,
+    {
+      time:number;
+      data:any;
+    }
+  >();
+
 const PLATFORMS: Record<string, string> = {
   EUW: "euw1",
   EUNE: "eun1",
@@ -230,4 +253,82 @@ export async function getLiveGame(
   }
 
   return JSON.parse(text);
+}
+
+// =========================
+// LIVE PLAYER DATA
+// =========================
+
+export async function getLivePlayer(
+  puuid: string,
+  championId: number,
+  riotId: string,
+  region: string,
+) {
+
+  const summoner =
+    await getSummonerByPuuid(
+      puuid,
+      region
+    );
+
+  const ranked =
+    await getRankedStats(
+      puuid,
+      region
+    );
+
+  const solo =
+    ranked.find(
+      (q: any) =>
+        q.queueType === "RANKED_SOLO_5x5"
+    );
+
+  const wins =
+    solo?.wins ?? 0;
+
+  const losses =
+    solo?.losses ?? 0;
+
+  const total =
+    wins + losses;
+
+  return {
+
+    riotId,
+
+    championId,
+
+    profileIcon:
+      summoner.profileIconId,
+
+    level:
+      summoner.summonerLevel,
+
+    tier:
+      solo?.tier ?? "UNRANKED",
+
+    rank:
+      solo?.rank ?? "",
+
+    lp:
+      solo?.leaguePoints ?? 0,
+
+    wins,
+
+    losses,
+
+    wr:
+      total
+        ? Number(
+            (
+              wins /
+              total *
+              100
+            ).toFixed(1)
+          )
+        : 0,
+
+  };
+
 }

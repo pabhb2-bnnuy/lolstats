@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface LiveGameButtonProps {
   summonerId: string;
@@ -11,40 +12,90 @@ export default function LiveGameButton({
   summonerId,
   region,
 }: LiveGameButtonProps) {
+
+  const router = useRouter();
+
   const [live, setLive] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function checkLive() {
+
+  async function checkLive(
+    redirect = false
+  ) {
+
     if (!summonerId) return;
 
+
     try {
+
       setLoading(true);
+
 
       const res = await fetch(
         `/api/live/${encodeURIComponent(summonerId)}?region=${region}`,
         {
-          cache: "no-store",
+          cache:"no-store",
         }
       );
 
+
       const data = await res.json();
 
-      setLive(Boolean(data.live));
+
+      const isLive =
+        Boolean(data.live);
+
+
+      setLive(isLive);
+
+
+
+      // SOLO entra si has pulsado el botón
+      if (
+        isLive &&
+        redirect
+      ) {
+
+        router.push(
+          `/live/${region}/${summonerId}`
+        );
+
+      }
+
+
     } catch {
+
       setLive(false);
+
     } finally {
+
       setLoading(false);
+
     }
+
   }
 
+
+
+  // Solo comprueba, NO REDIRECT
   useEffect(() => {
-    checkLive();
-  }, [summonerId, region]);
+
+    checkLive(false);
+
+  }, [
+    summonerId,
+    region
+  ]);
+
+
+
 
   return (
+
     <button
-      onClick={checkLive}
+      onClick={() => checkLive(true)}
       disabled={loading}
+
       className={`
         flex
         items-center
@@ -78,12 +129,14 @@ export default function LiveGameButton({
         }
       `}
     >
+
       <span
         className={`
           h-3
           w-3
           rounded-full
           shrink-0
+
           ${
             live
               ? "bg-emerald-400 animate-pulse"
@@ -92,21 +145,58 @@ export default function LiveGameButton({
         `}
       />
 
-      <div className="flex flex-col leading-tight">
-        <span className="text-sm font-bold text-white">
-          {loading
-            ? "Comprobando..."
-            : live
-            ? "Partida en vivo"
-            : "No está en partida"}
+
+      <div
+        className="
+        flex
+        flex-col
+        leading-tight
+        "
+      >
+
+        <span
+          className="
+          text-sm
+          font-bold
+          text-white
+          "
+        >
+
+          {
+            loading
+              ? "Comprobando..."
+              : live
+              ? "Entrar en partida"
+              : "No está en partida"
+          }
+
         </span>
 
-        <span className="text-xs text-slate-300">
-          {loading
-            ? "Consultando Riot..."
-            : "Pulsa para actualizar"}
+
+
+        <span
+          className="
+          text-xs
+          text-slate-300
+          "
+        >
+
+          {
+            loading
+              ? "Consultando Riot..."
+              : live
+              ? "Ver jugadores"
+              : "Pulsa para actualizar"
+          }
+
         </span>
+
+
       </div>
+
+
     </button>
+
   );
+
 }

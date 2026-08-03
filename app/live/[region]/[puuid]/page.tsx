@@ -1,4 +1,4 @@
-import { getLiveMatch } from "../../live";
+import LivePlayerCard from "@/components/live/LivePlayerCard";
 
 
 interface Props {
@@ -8,60 +8,200 @@ interface Props {
   }>;
 }
 
+
 export default async function LivePage({
   params,
 }: Props) {
 
+
   const {
     region,
-    puuid,
+    puuid
   } = await params;
 
-  const game =
-    await getLiveMatch(
-      region,
-      puuid
+
+
+  const res =
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/live/${puuid}?region=${region}`,
+      {
+        cache: "no-store",
+      }
     );
 
-  if (!game) {
+
+
+  const data =
+    await res.json();
+
+
+
+  if (!data.live) {
+
     return (
-      <main className="mx-auto max-w-5xl p-8 text-white">
-        <h1 className="text-3xl font-bold">
-          El jugador ya no está en partida
-        </h1>
+      <main
+        className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        text-white
+        "
+      >
+        No está jugando
       </main>
     );
+
   }
 
+
+
+  const blue =
+    data.players.filter(
+      (p:any) =>
+        p.teamId === 100
+    );
+
+
+
+  const red =
+    data.players.filter(
+      (p:any) =>
+        p.teamId === 200
+    );
+
+
+
   return (
-    <main className="mx-auto max-w-7xl p-8 text-white">
 
-      <h1
+    <main
+      className="
+      mx-auto
+      max-w-7xl
+      mt-13
+
+      px-4
+      sm:px-6
+
+      pt-20
+      pb-4
+      "
+    >
+
+
+
+      <div
         className="
-          mb-8
-          text-center
-          text-4xl
-          font-bold
+        grid
+        grid-cols-1
+        lg:grid-cols-2
+
+        gap-4
         "
       >
-        Live Game
-      </h1>
 
-      <pre
-        className="
-          overflow-auto
-          rounded-xl
-          border
-          border-white/10
-          bg-slate-900
-          p-5
-          text-xs
-        "
-      >
-        {JSON.stringify(game, null, 2)}
-      </pre>
+
+
+        {/* BLUE TEAM */}
+
+        <section>
+
+
+          <h2
+            className="
+            mb-3
+
+            text-center
+            text-xl
+            font-bold
+
+            text-blue-400
+            "
+          >
+            Equipo azul
+          </h2>
+
+
+
+          <div
+            className="
+            space-y-2
+            "
+          >
+
+            {
+              blue.map(
+                (player:any)=>(
+                  <LivePlayerCard
+                    key={player.riotId}
+                    player={player}
+                  />
+                )
+              )
+            }
+
+
+          </div>
+
+
+        </section>
+
+
+
+
+
+        {/* RED TEAM */}
+
+        <section>
+
+
+          <h2
+            className="
+            mb-3
+
+            text-center
+            text-xl
+            font-bold
+
+            text-red-400
+            "
+          >
+            Equipo rojo
+          </h2>
+
+
+
+          <div
+            className="
+            space-y-2
+            "
+          >
+
+            {
+              red.map(
+                (player:any)=>(
+                  <LivePlayerCard
+                    key={player.riotId}
+                    player={player}
+                  />
+                )
+              )
+            }
+
+
+          </div>
+
+
+        </section>
+
+
+
+      </div>
+
+
 
     </main>
+
   );
 
 }
