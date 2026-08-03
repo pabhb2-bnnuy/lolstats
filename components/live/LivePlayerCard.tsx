@@ -17,21 +17,13 @@ export default function LivePlayerCard({
   return (
     <div
       className="
-      h-[92px]
-      sm:h-[96px]
-
+      h-[96px]
       rounded-xl
-
       border
       border-white/10
-
       bg-slate-950/70
-
-      px-3
-      sm:px-4
-
+      px-4
       shadow-lg
-
       flex
       items-center
       "
@@ -41,36 +33,24 @@ export default function LivePlayerCard({
         className="
         flex
         items-center
-
-        gap-3
-        sm:gap-4
-
+        gap-4
         w-full
         h-full
         "
       >
 
 
-
         {/* CHAMPION ICON */}
 
         <div
           className="
-          h-12
-          w-12
-
-          sm:h-16
-          sm:w-16
-
+          h-16
+          w-16
           rounded-full
-
           overflow-hidden
-
           border
           border-white/20
-
           bg-indigo-900
-
           shrink-0
           "
         >
@@ -98,15 +78,11 @@ export default function LivePlayerCard({
               flex
               h-full
               w-full
-
               items-center
               justify-center
-
               text-white
               font-bold
-
-              text-lg
-              sm:text-2xl
+              text-2xl
               "
             >
               {player.riotId
@@ -118,7 +94,6 @@ export default function LivePlayerCard({
           }
 
         </div>
-
 
 
 
@@ -134,16 +109,10 @@ export default function LivePlayerCard({
           <div
             className="
             truncate
-
-            max-w-[110px]
-            sm:max-w-[170px]
-
+            max-w-[170px]
             text-white
-
             font-bold
-
-            text-xs
-            sm:text-base
+            text-base
             "
           >
             {player.riotId}
@@ -152,9 +121,7 @@ export default function LivePlayerCard({
 
           <div
             className="
-            text-xs
-            sm:text-sm
-
+            text-sm
             text-slate-400
             "
           >
@@ -162,16 +129,12 @@ export default function LivePlayerCard({
           </div>
 
 
-
           {
             player.championName && (
 
               <div
                 className="
-                hidden
-                sm:block
-
-                text-xs
+                text-sm
                 text-slate-500
                 "
               >
@@ -182,18 +145,16 @@ export default function LivePlayerCard({
           }
 
 
-
-
           {
             player.hidden && (
 
               <div
                 className="
-                text-xs
+                text-sm
                 text-slate-500
                 "
               >
-                Streamer
+                Modo streamer
               </div>
 
             )
@@ -201,8 +162,6 @@ export default function LivePlayerCard({
 
 
         </div>
-
-
 
 
 
@@ -215,29 +174,21 @@ export default function LivePlayerCard({
             <div
               className="
               flex
-
               items-center
-
-              gap-2
-              sm:gap-4
-
+              gap-4
               shrink-0
               "
             >
 
 
-
-              {/* W / L */}
+              {/* W L */}
 
               <div
                 className="
                 flex
                 flex-col
-
                 text-right
-
-                text-xs
-                sm:text-sm
+                text-sm
                 "
               >
 
@@ -266,18 +217,13 @@ export default function LivePlayerCard({
 
 
 
-
               {/* RANK */}
 
               <div
                 className="
                 flex
                 flex-col
-
                 text-right
-
-                text-xs
-                sm:text-sm
                 "
               >
 
@@ -285,47 +231,42 @@ export default function LivePlayerCard({
                   className="
                   text-indigo-300
                   font-semibold
+                  text-sm
                   "
                 >
-                  {player.tier}
-                  {" "}
-                  {player.rank}
+                  {player.tier} {player.rank}
                 </span>
 
 
                 <span
                   className="
                   text-white
+                  text-sm
                   "
                 >
                   {player.lp} LP
                 </span>
 
 
-
                 <span
                   className="
-                  hidden
-                  sm:block
-
                   mt-1
-
                   text-emerald-300
                   font-bold
+                  text-sm
                   "
                 >
                   WR {player.wr}%
                 </span>
 
-
               </div>
-
 
 
             </div>
 
           )
         }
+
 
 
       </div>
