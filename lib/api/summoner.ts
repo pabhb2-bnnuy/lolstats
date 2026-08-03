@@ -17,28 +17,26 @@ export async function getSummonerProfile(
 
   const account = await getAccountByRiotId(gameName, tagLine);
 
-  console.log("ACCOUNT:", account);
-
   // =========================
   // 2. Perfil invocador
   // =========================
 
   const summoner = await getSummonerByPuuid(account.puuid, region);
 
-  console.log("SUMMONER:", summoner);
-
   // =========================
   // 3. Ranked
   // =========================
 
-  let ranked: any[] = [];
-
-  ranked = await getRankedStats(account.puuid, region);
-
-  console.log("RANKED:", ranked);
+  const ranked = await getRankedStats(account.puuid, region);
 
   const soloQueue = ranked.find(
-    (queue: any) => queue.queueType === "RANKED_SOLO_5x5",
+    (queue: any) =>
+      queue.queueType === "RANKED_SOLO_5x5"
+  );
+
+  const flexQueue = ranked.find(
+    (queue: any) =>
+      queue.queueType === "RANKED_FLEX_SR"
   );
 
   // =========================
@@ -47,61 +45,53 @@ export async function getSummonerProfile(
 
   const matchIds = await getMatchIds(account.puuid);
 
-  console.log("MATCH IDS:", matchIds);
-
   const matches = (
     await Promise.all(
       matchIds.map(async (id: string) => {
         try {
           return await getMatch(id);
-        } catch (error) {
-          console.log("MATCH FALLIDA:", id);
-
+        } catch {
           return null;
         }
       }),
     )
   ).filter(Boolean);
 
-  console.log("MATCHES:", matches);
-
   // =========================
   // RETURN
   // =========================
 
   return {
-    // Identidad
-
     gameName: account.gameName,
-
     tagLine: account.tagLine,
 
-    // Perfil
-
     level: summoner.summonerLevel,
-
     icon: summoner.profileIconId,
 
     puuid: account.puuid,
 
-    // Ranked
+    soloQueue: {
+      tier: soloQueue?.tier ?? "UNRANKED",
+      rank: soloQueue?.rank ?? "",
+      lp: soloQueue?.leaguePoints ?? 0,
+      wins: soloQueue?.wins ?? 0,
+      losses: soloQueue?.losses ?? 0,
+      totalGames:
+        (soloQueue?.wins ?? 0) +
+        (soloQueue?.losses ?? 0),
+    },
 
-    tier: soloQueue?.tier ?? "UNRANKED",
-
-    rank: soloQueue?.rank ?? "",
-
-    lp: soloQueue?.leaguePoints ?? 0,
-
-    wins: soloQueue?.wins ?? 0,
-
-    losses: soloQueue?.losses ?? 0,
-
-    totalGames: (soloQueue?.wins ?? 0) + (soloQueue?.losses ?? 0),
-
-    // Partidas
+    flexQueue: {
+      tier: flexQueue?.tier ?? "UNRANKED",
+      rank: flexQueue?.rank ?? "",
+      lp: flexQueue?.leaguePoints ?? 0,
+      wins: flexQueue?.wins ?? 0,
+      losses: flexQueue?.losses ?? 0,
+      totalGames:
+        (flexQueue?.wins ?? 0) +
+        (flexQueue?.losses ?? 0),
+    },
 
     matches,
-
-    rankedRaw: ranked,
   };
 }

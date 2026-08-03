@@ -11,27 +11,19 @@ interface RankedInfoProps {
   };
 }
 
-export default function RankedInfo({
-  profile,
-}: RankedInfoProps) {
+export default function RankedInfo({ profile }: RankedInfoProps) {
   const winrate =
     profile.totalGames > 0
-      ? Math.round(
-          (profile.wins / profile.totalGames) * 100
-        )
+      ? Math.round((profile.wins / profile.totalGames) * 100)
       : 0;
 
-  const isUnranked =
-    !profile.tier ||
-    profile.tier === "UNRANKED";
+  const isUnranked = !profile.tier || profile.tier === "UNRANKED";
 
-  const tier =
-    profile.tier.toLowerCase();
+  const tier = profile.tier.toLowerCase();
 
-  const rankIcon =
-    isUnranked
-      ? "/unranked-emblem.png"
-      : `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier}.png`;
+  const rankIcon = isUnranked
+    ? "/unranked-emblem.png"
+    : `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier}.png`;
 
   return (
     <div
@@ -61,11 +53,7 @@ export default function RankedInfo({
       >
         <img
           src={rankIcon}
-          alt={
-            isUnranked
-              ? "Unranked"
-              : profile.tier
-          }
+          alt={isUnranked ? "Unranked" : profile.tier}
           className={
             isUnranked
               ? `
@@ -95,13 +83,11 @@ export default function RankedInfo({
       >
         <h2
           className="
-            text-2xl
-            font-black
-            uppercase
-            text-white
-
-            sm:text-3xl
-          "
+          text-xl
+          font-black
+          uppercase
+        text-white
+          sm:text-2xl"
         >
           {isUnranked
             ? "Unranked"
@@ -129,17 +115,11 @@ export default function RankedInfo({
             text-sm
           "
         >
-          <p className="text-green-400">
-            {profile.wins} Victorias
-          </p>
+          <p className="text-green-400">{profile.wins} Victorias</p>
 
-          <p className="text-red-400">
-            {profile.losses} Derrotas
-          </p>
+          <p className="text-red-400">{profile.losses} Derrotas</p>
 
-          <p className="font-bold text-white">
-            {winrate}% Winrate
-          </p>
+          <p className="font-bold text-white">{winrate}% Winrate</p>
         </div>
       </div>
     </div>

@@ -1,14 +1,20 @@
 import RankedInfo from "./RankedInfo";
 import MatchHistory from "./MatchHistory";
 
+interface QueueProfile {
+  tier: string;
+  rank: string;
+  lp: number;
+  wins: number;
+  losses: number;
+  totalGames: number;
+}
+
 interface RankedCardProps {
   profile: {
-    tier: string;
-    rank: string;
-    lp: number;
-    wins: number;
-    losses: number;
-    totalGames: number;
+    soloQueue: QueueProfile;
+    flexQueue: QueueProfile;
+
     matches: any[];
     puuid: string;
   };
@@ -58,7 +64,7 @@ export default function RankedCard({
           lg:grid-cols-12
         "
       >
-        {/* Ranked */}
+        {/* RANKEDS */}
         <div
           className="
             lg:col-span-4
@@ -69,12 +75,51 @@ export default function RankedCard({
             lg:pr-6
           "
         >
+          <h2
+            className="
+              mb-6
+              text-xl
+              font-bold
+              text-white
+            "
+          >
+            Solo/Duo
+          </h2>
+
           <RankedInfo
-            profile={profile}
+            profile={profile.soloQueue}
+          />
+
+          <div
+            className="
+              my-8
+              h-px
+              w-full
+
+              bg-gradient-to-r
+              from-transparent
+              via-indigo-500/20
+              to-transparent
+            "
+          />
+
+          <h2
+            className="
+              mb-6
+              text-xl
+              font-bold
+              text-white
+            "
+          >
+            Flex 5v5
+          </h2>
+
+          <RankedInfo
+            profile={profile.flexQueue}
           />
         </div>
 
-        {/* Historial */}
+        {/* HISTORIAL */}
         <div
           className="
             lg:col-span-8
