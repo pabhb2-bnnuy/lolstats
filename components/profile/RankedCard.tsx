@@ -22,10 +22,7 @@ interface RankedCardProps {
   champions: Record<string, string>;
 }
 
-export default function RankedCard({
-  profile,
-  champions,
-}: RankedCardProps) {
+export default function RankedCard({ profile, champions }: RankedCardProps) {
   return (
     <div
       className="
@@ -36,7 +33,7 @@ export default function RankedCard({
         border
         border-indigo-500/20
 
-        bg-gradient-to-br
+        bg-linear-to-br
         from-slate-950
         via-indigo-950/30
         to-slate-900
@@ -86,9 +83,7 @@ export default function RankedCard({
             Solo/Duo
           </h2>
 
-          <RankedInfo
-            profile={profile.soloQueue}
-          />
+          <RankedInfo profile={profile.soloQueue} />
 
           <div
             className="
@@ -96,7 +91,7 @@ export default function RankedCard({
               h-px
               w-full
 
-              bg-gradient-to-r
+              bg-linear-to-r
               from-transparent
               via-indigo-500/20
               to-transparent
@@ -114,9 +109,7 @@ export default function RankedCard({
             Flex 5v5
           </h2>
 
-          <RankedInfo
-            profile={profile.flexQueue}
-          />
+          <RankedInfo profile={profile.flexQueue} />
         </div>
 
         {/* HISTORIAL */}
