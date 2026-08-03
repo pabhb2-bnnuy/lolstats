@@ -1,5 +1,7 @@
-import LivePlayerCard from "@/components/live/LivePlayerCard";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
+import LivePlayerCard from "@/components/live/LivePlayerCard";
 
 interface Props {
   params: Promise<{
@@ -8,36 +10,22 @@ interface Props {
   }>;
 }
 
+export default async function LivePage({ params }: Props) {
+  const { region, puuid } = await params;
 
-export default async function LivePage({
-  params,
-}: Props) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/live/${puuid}?region=${region}`,
+    {
+      cache: "no-store",
+      next: {
+        revalidate: 0,
+      },
+    },
+  );
 
-
-  const {
-    region,
-    puuid
-  } = await params;
-
-
-
-  const res =
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/live/${puuid}?region=${region}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-
-
-  const data =
-    await res.json();
-
-
+  const data = await res.json();
 
   if (!data.live) {
-
     return (
       <main
         className="
@@ -51,29 +39,13 @@ export default async function LivePage({
         No está jugando
       </main>
     );
-
   }
 
+  const blue = data.players.filter((p: any) => p.teamId === 100);
 
-
-  const blue =
-    data.players.filter(
-      (p:any) =>
-        p.teamId === 100
-    );
-
-
-
-  const red =
-    data.players.filter(
-      (p:any) =>
-        p.teamId === 200
-    );
-
-
+  const red = data.players.filter((p: any) => p.teamId === 200);
 
   return (
-
     <main
       className="
       mx-auto
@@ -87,9 +59,6 @@ export default async function LivePage({
       pb-4
       "
     >
-
-
-
       <div
         className="
         grid
@@ -99,14 +68,9 @@ export default async function LivePage({
         gap-4
         "
       >
-
-
-
         {/* BLUE TEAM */}
 
         <section>
-
-
           <h2
             className="
             mb-3
@@ -121,40 +85,20 @@ export default async function LivePage({
             Equipo azul
           </h2>
 
-
-
           <div
             className="
             space-y-2
             "
           >
-
-            {
-              blue.map(
-                (player:any)=>(
-                  <LivePlayerCard
-                    key={player.riotId}
-                    player={player}
-                  />
-                )
-              )
-            }
-
-
+            {blue.map((player: any) => (
+              <LivePlayerCard key={player.riotId} player={player} />
+            ))}
           </div>
-
-
         </section>
-
-
-
-
 
         {/* RED TEAM */}
 
         <section>
-
-
           <h2
             className="
             mb-3
@@ -169,39 +113,17 @@ export default async function LivePage({
             Equipo rojo
           </h2>
 
-
-
           <div
             className="
             space-y-2
             "
           >
-
-            {
-              red.map(
-                (player:any)=>(
-                  <LivePlayerCard
-                    key={player.riotId}
-                    player={player}
-                  />
-                )
-              )
-            }
-
-
+            {red.map((player: any) => (
+              <LivePlayerCard key={player.riotId} player={player} />
+            ))}
           </div>
-
-
         </section>
-
-
-
       </div>
-
-
-
     </main>
-
   );
-
 }

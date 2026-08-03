@@ -20,7 +20,7 @@ export function useSearchSummoner() {
     const [gameName, tagLine] = value.trim().split("#");
 
     if (!gameName || !tagLine) {
-      setError("Introduce un Riot ID válido (ej: Faker#KR1).");
+      setError("Introduce un Riot ID válido (ej: Art The Clown#EUW).");
       return;
     }
 

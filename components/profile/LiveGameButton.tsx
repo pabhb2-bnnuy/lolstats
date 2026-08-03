@@ -12,90 +12,50 @@ export default function LiveGameButton({
   summonerId,
   region,
 }: LiveGameButtonProps) {
-
   const router = useRouter();
 
   const [live, setLive] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
-  async function checkLive(
-    redirect = false
-  ) {
-
+  async function checkLive(redirect = false) {
     if (!summonerId) return;
 
-
     try {
-
       setLoading(true);
-
 
       const res = await fetch(
         `/api/live/${encodeURIComponent(summonerId)}?region=${region}`,
         {
-          cache:"no-store",
-        }
+          cache: "no-store",
+        },
       );
-
 
       const data = await res.json();
 
-
-      const isLive =
-        Boolean(data.live);
-
+      const isLive = Boolean(data.live);
 
       setLive(isLive);
 
-
-
       // SOLO entra si has pulsado el botón
-      if (
-        isLive &&
-        redirect
-      ) {
-
-        router.push(
-          `/live/${region}/${summonerId}`
-        );
-
+      if (isLive && redirect) {
+        router.push(`/live/${region}/${summonerId}`);
       }
-
-
     } catch {
-
       setLive(false);
-
     } finally {
-
       setLoading(false);
-
     }
-
   }
-
-
 
   // Solo comprueba, NO REDIRECT
   useEffect(() => {
-
     checkLive(false);
-
-  }, [
-    summonerId,
-    region
-  ]);
-
-
-
+  }, [summonerId, region]);
 
   return (
-
     <button
       onClick={() => checkLive(true)}
       disabled={loading}
-
       className={`
         flex
         items-center
@@ -129,7 +89,6 @@ export default function LiveGameButton({
         }
       `}
     >
-
       <span
         className={`
           h-3
@@ -137,14 +96,9 @@ export default function LiveGameButton({
           rounded-full
           shrink-0
 
-          ${
-            live
-              ? "bg-emerald-400 animate-pulse"
-              : "bg-slate-500"
-          }
+          ${live ? "bg-emerald-400 animate-pulse" : "bg-slate-500"}
         `}
       />
-
 
       <div
         className="
@@ -153,7 +107,6 @@ export default function LiveGameButton({
         leading-tight
         "
       >
-
         <span
           className="
           text-sm
@@ -161,18 +114,12 @@ export default function LiveGameButton({
           text-white
           "
         >
-
-          {
-            loading
-              ? "Comprobando..."
-              : live
+          {loading
+            ? "Comprobando..."
+            : live
               ? "Entrar en partida"
-              : "No está en partida"
-          }
-
+              : "No está en partida"}
         </span>
-
-
 
         <span
           className="
@@ -180,23 +127,13 @@ export default function LiveGameButton({
           text-slate-300
           "
         >
-
-          {
-            loading
-              ? "Consultando Riot..."
-              : live
+          {loading
+            ? "Consultando Riot..."
+            : live
               ? "Ver jugadores"
-              : "Pulsa para actualizar"
-          }
-
+              : "Pulsa para actualizar"}
         </span>
-
-
       </div>
-
-
     </button>
-
   );
-
 }

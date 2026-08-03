@@ -7,12 +7,14 @@ interface Props {
 export default function LivePlayerCard({
   player,
 }: Props) {
+  // Cambia aquí cuando Riot saque un parche nuevo
+  const DDRAGON_VERSION = "16.15.1";
 
-  const championImage =
-    player.championName
-      ? `https://ddragon.leagueoflegends.com/cdn/15.15.1/img/champion/${player.championName}.png`
-      : null;
-
+  const championImage = player.championName
+    ? `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/champion/${encodeURIComponent(
+        player.championName,
+      )}.png`
+    : null;
 
   return (
     <div
@@ -28,7 +30,6 @@ export default function LivePlayerCard({
       items-center
       "
     >
-
       <div
         className="
         flex
@@ -38,8 +39,6 @@ export default function LivePlayerCard({
         h-full
         "
       >
-
-
         {/* CHAMPION ICON */}
 
         <div
@@ -54,14 +53,10 @@ export default function LivePlayerCard({
           shrink-0
           "
         >
-
-          {
-            championImage
-            ?
-
+          {championImage ? (
             <Image
               src={championImage}
-              alt="Champion"
+              alt={player.championName ?? "Champion"}
               width={64}
               height={64}
               className="
@@ -69,10 +64,9 @@ export default function LivePlayerCard({
               w-full
               object-cover
               "
+              unoptimized
             />
-
-            :
-
+          ) : (
             <div
               className="
               flex
@@ -85,17 +79,10 @@ export default function LivePlayerCard({
               text-2xl
               "
             >
-              {player.riotId
-                ?.charAt(0)
-                ?.toUpperCase()
-              }
+              {player.riotId?.charAt(0)?.toUpperCase()}
             </div>
-
-          }
-
+          )}
         </div>
-
-
 
         {/* PLAYER INFO */}
 
@@ -105,11 +92,9 @@ export default function LivePlayerCard({
           min-w-0
           "
         >
-
           <div
             className="
-            truncate
-            max-w-[170px]
+        
             text-white
             font-bold
             text-base
@@ -117,7 +102,6 @@ export default function LivePlayerCard({
           >
             {player.riotId}
           </div>
-
 
           <div
             className="
@@ -128,150 +112,111 @@ export default function LivePlayerCard({
             Nivel {player.level ?? "-"}
           </div>
 
+          {player.championName && (
+            <div
+              className="
+              text-sm
+              text-slate-500
+              "
+            >
+              {player.championName}
+            </div>
+          )}
 
-          {
-            player.championName && (
-
-              <div
-                className="
-                text-sm
-                text-slate-500
-                "
-              >
-                {player.championName}
-              </div>
-
-            )
-          }
-
-
-          {
-            player.hidden && (
-
-              <div
-                className="
-                text-sm
-                text-slate-500
-                "
-              >
-                Modo streamer
-              </div>
-
-            )
-          }
-
-
+          {player.hidden && (
+            <div
+              className="
+              text-sm
+              text-slate-500
+              "
+            >
+              Modo streamer
+            </div>
+          )}
         </div>
-
-
-
 
         {/* STATS */}
 
-        {
-          !player.hidden && (
+        {!player.hidden && (
+          <div
+            className="
+            flex
+            items-center
+            gap-4
+            shrink-0
+            "
+          >
+            {/* W/L */}
 
             <div
               className="
               flex
-              items-center
-              gap-4
-              shrink-0
+              flex-col
+              text-right
+              text-sm
               "
             >
-
-
-              {/* W L */}
-
-              <div
+              <span
                 className="
-                flex
-                flex-col
-                text-right
+                text-emerald-400
+                font-bold
+                "
+              >
+                {player.wins}W
+              </span>
+
+              <span
+                className="
+                text-red-400
+                font-bold
+                "
+              >
+                {player.losses}L
+              </span>
+            </div>
+
+            {/* RANK */}
+
+            <div
+              className="
+              flex
+              flex-col
+              text-right
+              "
+            >
+              <span
+                className="
+                text-indigo-300
+                font-semibold
                 text-sm
                 "
               >
+                {player.tier} {player.rank}
+              </span>
 
-                <span
-                  className="
-                  text-emerald-400
-                  font-bold
-                  "
-                >
-                  {player.wins}W
-                </span>
-
-
-                <span
-                  className="
-                  text-red-400
-                  font-bold
-                  "
-                >
-                  {player.losses}L
-                </span>
-
-              </div>
-
-
-
-
-
-              {/* RANK */}
-
-              <div
+              <span
                 className="
-                flex
-                flex-col
-                text-right
+                text-white
+                text-sm
                 "
               >
+                {player.lp} LP
+              </span>
 
-                <span
-                  className="
-                  text-indigo-300
-                  font-semibold
-                  text-sm
-                  "
-                >
-                  {player.tier} {player.rank}
-                </span>
-
-
-                <span
-                  className="
-                  text-white
-                  text-sm
-                  "
-                >
-                  {player.lp} LP
-                </span>
-
-
-                <span
-                  className="
-                  mt-1
-                  text-emerald-300
-                  font-bold
-                  text-sm
-                  "
-                >
-                  WR {player.wr}%
-                </span>
-
-              </div>
-
-
+              <span
+                className="
+                mt-1
+                text-emerald-300
+                font-bold
+                text-sm
+                "
+              >
+                WR {player.wr}%
+              </span>
             </div>
-
-          )
-        }
-
-
-
+          </div>
+        )}
       </div>
-
-
     </div>
   );
 }

@@ -14,14 +14,7 @@ const playerCache =
   >();
 
 
-const liveCache =
-  new Map<
-    string,
-    {
-      time:number;
-      data:any;
-    }
-  >();
+
 
 const PLATFORMS: Record<string, string> = {
   EUW: "euw1",
@@ -266,6 +259,17 @@ export async function getLivePlayer(
   region: string,
 ) {
 
+  const key = `${region}:${puuid}`;
+
+  const cached = playerCache.get(key);
+
+  if (
+    cached &&
+    Date.now() - cached.time < 10000
+  ) {
+    return cached.data;
+  }
+
   const summoner =
     await getSummonerByPuuid(
       puuid,
@@ -293,7 +297,7 @@ export async function getLivePlayer(
   const total =
     wins + losses;
 
-  return {
+  const data = {
 
     riotId,
 
@@ -330,5 +334,15 @@ export async function getLivePlayer(
         : 0,
 
   };
+
+  playerCache.set(
+    key,
+    {
+      time: Date.now(),
+      data,
+    }
+  );
+
+  return data;
 
 }

@@ -1,5 +1,6 @@
 import { getChampionMap } from "@/lib/api/champions";
 import { getLiveGame, getLivePlayer } from "@/lib/api/riot";
+import pLimit from "p-limit";
 
 export async function GET(
   req: Request,
@@ -32,56 +33,59 @@ export async function GET(
       });
     }
 
-    const champions = await getChampionMap();
+const champions = await getChampionMap();
 
-    const players = await Promise.all(
-      game.participants.map(async (player: any) => {
-        if (!player.puuid) {
-          return {
-            riotId: player.riotId,
+const limit = pLimit(3);
 
-            championId: player.championId,
+const players = await Promise.all(
+  game.participants.map((player: any) =>
+    limit(async () => {
 
-            championName: champions[player.championId],
+      // Streamer mode
+      if (!player.puuid) {
+        return {
+          riotId: player.riotId,
+          championId: player.championId,
+          championName: champions[player.championId],
+          hidden: true,
+          teamId: player.teamId,
+        };
+      }
 
-            hidden: true,
+      try {
 
-            teamId: player.teamId,
-          };
-        }
+        const info = await getLivePlayer(
+          player.puuid,
+          player.championId,
+          player.riotId,
+          region,
+        );
 
-        try {
-          const info = await getLivePlayer(
-            player.puuid,
-            player.championId,
-            player.riotId,
-            region,
-          );
+        return {
+          ...info,
+          championName: champions[player.championId],
+          teamId: player.teamId,
+          hidden: false,
+        };
 
-          return {
-            ...info,
+      } catch (error) {
 
-            championName: champions[player.championId],
+        console.error("PLAYER ERROR:", player.riotId);
+        console.error(error);
 
-            teamId: player.teamId,
+        return {
+          riotId: player.riotId,
+          championId: player.championId,
+          championName: champions[player.championId],
+          hidden: true,
+          teamId: player.teamId,
+        };
 
-            hidden: false,
-          };
-        } catch {
-          return {
-            riotId: player.riotId,
+      }
 
-            championId: player.championId,
-
-            championName: champions[player.championId],
-
-            hidden: true,
-
-            teamId: player.teamId,
-          };
-        }
-      }),
-    );
+    })
+  )
+);
 
     return Response.json({
       live: true,
