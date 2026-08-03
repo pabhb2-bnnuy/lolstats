@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Button from "@/components/Button";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -65,11 +64,7 @@ export default function Navbar() {
         "
       >
         {/* Izquierda */}
-        <div className="flex items-center">
-          <Link href="/">
-            <Button text="Inicio" className="w-24 sm:w-28 md:w-30 text-sm" />
-          </Link>
-        </div>
+        <div className="flex items-center"></div>
 
         {/* Centro */}
         <Link href="/">
@@ -95,36 +90,21 @@ export default function Navbar() {
 
         {/* Derecha */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-5">
-          <Link href="">
-            <Button
-              text=""
-              className="w-11 sm:w-12 md:w-14"
-              image={
-                <Image
-                  src="/dark_mode.svg"
-                  alt="Cambiar tema"
-                  loading="eager"
-                  width={24}
-                  height={24}
-                />
-              }
-            />
-          </Link>
-
-          <Link href="">
-            <Button
-              text=""
-              className="w-11 sm:w-12 md:w-14"
-              image={
-                <Image
-                  src="/language.svg"
-                  alt="Cambiar idioma"
-                  width={24}
-                  height={24}
-                />
-              }
-            />
-          </Link>
+          <Image
+            src="/language.svg"
+            alt="Cambiar idioma"
+            width={16}
+            height={24}
+            className="invert"
+          />
+          <Image
+            src="/dark_mode.svg"
+            alt="Cambiar tema"
+            loading="eager"
+            width={17}
+            height={24}
+            className="invert"
+          />
         </div>
       </nav>
     </header>

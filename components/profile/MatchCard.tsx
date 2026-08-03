@@ -14,11 +14,7 @@ interface MatchCardProps {
   champions: Record<string, string>;
 }
 
-export default function MatchCard({
-  match,
-  puuid,
-  champions,
-}: MatchCardProps) {
+export default function MatchCard({ match, puuid, champions }: MatchCardProps) {
   const player = getMatchPlayer(match, puuid);
 
   if (!player) {
@@ -27,15 +23,9 @@ export default function MatchCard({
 
   const win = player.win;
 
-  const teamMates = getTeamPlayers(
-    match,
-    player.teamId
-  );
+  const teamMates = getTeamPlayers(match, player.teamId);
 
-  const enemies = getEnemyPlayers(
-    match,
-    player.teamId
-  );
+  const enemies = getEnemyPlayers(match, player.teamId);
 
   return (
     <div
@@ -53,14 +43,14 @@ export default function MatchCard({
           win
             ? `
               border-emerald-400/40
-              bg-gradient-to-br
+              bg-linear-to-br
               from-emerald-900/50
               via-slate-900
               to-indigo-950/80
             `
             : `
               border-rose-400/40
-              bg-gradient-to-br
+              bg-linear-to-br
               from-rose-900/50
               via-slate-900
               to-indigo-950/80
@@ -90,11 +80,7 @@ export default function MatchCard({
         >
           <img
             src={
-              champions[
-                player.championName
-                  .replace(/['\s]/g, "")
-                  .toLowerCase()
-              ]
+              champions[player.championName.replace(/['\s]/g, "").toLowerCase()]
             }
             alt={player.championName}
             loading="lazy"
@@ -141,15 +127,9 @@ export default function MatchCard({
           "
         >
           <div className="flex flex-col gap-1">
-            <TeamIcons
-              players={teamMates}
-              champions={champions}
-            />
+            <TeamIcons players={teamMates} champions={champions} />
 
-            <TeamIcons
-              players={enemies}
-              champions={champions}
-            />
+            <TeamIcons players={enemies} champions={champions} />
           </div>
 
           <div
@@ -168,16 +148,8 @@ export default function MatchCard({
               {getQueueName(match.info.queueId)}
             </p>
 
-            <p
-              className={
-                win
-                  ? "text-emerald-400"
-                  : "text-rose-400"
-              }
-            >
-              {win
-                ? "Victoria"
-                : "Derrota"}
+            <p className={win ? "text-emerald-400" : "text-rose-400"}>
+              {win ? "Victoria" : "Derrota"}
             </p>
           </div>
         </div>

@@ -27,7 +27,7 @@ export default function PlayerCard({
         border
         border-slate-700/70
 
-        bg-gradient-to-br
+        bg-linear-to-br
         from-slate-900
         via-slate-900
         to-indigo-950/60
@@ -62,8 +62,8 @@ export default function PlayerCard({
             border-2
             border-indigo-500/70
 
-            sm:h-[90px]
-            sm:w-[90px]
+            sm:h-22.5
+            sm:w-22.5
           "
         />
 

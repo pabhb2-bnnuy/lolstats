@@ -3,6 +3,7 @@ export function getQueueName(queueId: number) {
     // Ranked
     420: "Ranked Solo",
     440: "Ranked Flex",
+    710: "Ranked 5v5",
 
     // Normales
     400: "Normal Draft",
@@ -15,10 +16,11 @@ export function getQueueName(queueId: number) {
     // Arena
     1700: "Arena",
     1710: "Arena",
+    1750: "Arena",
 
     // Clash
     700: "Clash",
-    710: "Ranked 5v5",
+
     720: "ARAM Clash",
 
     // Modos temporales

@@ -15,7 +15,7 @@ export default function SearchInput({ value, onChange, loading }: Props) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type="text"
-        placeholder="Faker#KR1"
+        placeholder="Αrt The Clοwn#EUW"
         className="
           min-w-0
           flex-1
