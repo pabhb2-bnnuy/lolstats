@@ -28,17 +28,7 @@ export default function Footer() {
         border-white/10
       "
     >
-      <p
-        className="
-          text-sm
-          text-gray-100
-          transition-transform
-          hover:scale-105
-          sm:text-base
-        "
-      >
-        LolStats © 2026
-      </p>
+ 
 
       <Link
         href="https://github.com/pabhb2-bnnuy"
