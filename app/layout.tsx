@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LolStats, Live game reviewing tool!",
+  title: "LolStats, Herramienta para revisar tus partidas!",
   description: "This tool is meant to help me learn some basic react stuff :).",
 };
 
