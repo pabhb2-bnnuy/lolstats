@@ -1,8 +1,8 @@
 services:
-  lol-live:
+  lolstats:
     build:
       context: ..
-      dockerfile: Dockerfile
+      dockerfile: release/Dockerfile
 
     container_name: lol-live
 
