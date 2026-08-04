@@ -64,7 +64,11 @@ export default async function SummonerPage({ params }: PageProps) {
 </div>
 
         <div className="mt-6 sm:mt-8">
-          <RankedCard profile={profile} champions={champions} />
+        <RankedCard
+  profile={profile}
+  champions={champions}
+  region={region}
+/>
         </div>
       </div>
     </main>

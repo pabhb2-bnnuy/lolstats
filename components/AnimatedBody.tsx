@@ -21,7 +21,7 @@ export default function AnimatedBody({
 
     const timer = setTimeout(() => {
       setShowOverlay(false);
-    }, 2000);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);

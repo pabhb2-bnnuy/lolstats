@@ -20,9 +20,10 @@ interface RankedCardProps {
   };
 
   champions: Record<string, string>;
+  region: string;
 }
 
-export default function RankedCard({ profile, champions }: RankedCardProps) {
+export default function RankedCard({ profile, champions, region }: RankedCardProps) {
   return (
     <div
       className="
@@ -118,11 +119,12 @@ export default function RankedCard({ profile, champions }: RankedCardProps) {
             lg:col-span-8
           "
         >
-          <MatchHistory
-            matches={profile.matches}
-            puuid={profile.puuid}
-            champions={champions}
-          />
+      <MatchHistory
+  matches={profile.matches}
+  puuid={profile.puuid}
+  champions={champions}
+  region={region}
+/>
         </div>
       </div>
     </div>

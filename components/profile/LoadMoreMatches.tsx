@@ -7,12 +7,14 @@ interface LoadMoreMatchesProps {
   initialMatches: any[];
   puuid: string;
   champions: Record<string, string>;
+  region: string;
 }
 
 export default function LoadMoreMatches({
   initialMatches,
   puuid,
   champions,
+   region,
 }: LoadMoreMatchesProps) {
   const [matches, setMatches] = useState(initialMatches);
   const [loading, setLoading] = useState(false);
@@ -50,12 +52,13 @@ export default function LoadMoreMatches({
     <>
       <div className="space-y-3">
         {matches.map((match) => (
-          <MatchCard
-            key={match.metadata.matchId}
-            match={match}
-            puuid={puuid}
-            champions={champions}
-          />
+    <MatchCard
+  key={match.metadata.matchId}
+  match={match}
+  puuid={puuid}
+  champions={champions}
+  region={region}
+/>
         ))}
       </div>
 

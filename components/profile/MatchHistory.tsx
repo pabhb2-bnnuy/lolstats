@@ -4,12 +4,14 @@ interface MatchHistoryProps {
   matches: any[];
   puuid: string;
   champions: Record<string, string>;
+  region: string;
 }
 
 export default function MatchHistory({
   matches,
   puuid,
   champions,
+  region,
 }: MatchHistoryProps) {
   return (
     <div>
@@ -24,11 +26,12 @@ export default function MatchHistory({
         Últimas partidas
       </h2>
 
-      <LoadMoreMatches
-        initialMatches={matches}
-        puuid={puuid}
-        champions={champions}
-      />
+<LoadMoreMatches
+  initialMatches={matches}
+  puuid={puuid}
+  champions={champions}
+  region={region}
+/>
     </div>
   );
 }
