@@ -41,9 +41,13 @@ export default async function LivePage({ params }: Props) {
     );
   }
 
-  const blue = data.players.filter((p: any) => p.teamId === 100);
+  const blue = data.players.filter(
+    (p: any) => p.teamId === 100,
+  );
 
-  const red = data.players.filter((p: any) => p.teamId === 200);
+  const red = data.players.filter(
+    (p: any) => p.teamId === 200,
+  );
 
   return (
     <main
@@ -68,6 +72,7 @@ export default async function LivePage({ params }: Props) {
         gap-4
         "
       >
+
         {/* BLUE TEAM */}
 
         <section>
@@ -91,10 +96,15 @@ export default async function LivePage({ params }: Props) {
             "
           >
             {blue.map((player: any) => (
-              <LivePlayerCard key={player.riotId} player={player} />
+              <LivePlayerCard
+                key={player.riotId}
+                player={player}
+                region={region}
+              />
             ))}
           </div>
         </section>
+
 
         {/* RED TEAM */}
 
@@ -119,10 +129,15 @@ export default async function LivePage({ params }: Props) {
             "
           >
             {red.map((player: any) => (
-              <LivePlayerCard key={player.riotId} player={player} />
+              <LivePlayerCard
+                key={player.riotId}
+                player={player}
+                region={region}
+              />
             ))}
           </div>
         </section>
+
       </div>
     </main>
   );

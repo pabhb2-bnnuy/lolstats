@@ -300,9 +300,14 @@ export async function getLivePlayer(
   const total =
     wins + losses;
 
-  const data = {
+ const [riotIdGameName, riotIdTagline] = riotId.split("#");
+
+const data = {
 
     riotId,
+
+    riotIdGameName,
+    riotIdTagline,
 
     championId,
 

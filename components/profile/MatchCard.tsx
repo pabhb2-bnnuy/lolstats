@@ -1,3 +1,23 @@
+function timeAgo(timestamp: number) {
+  const now = Date.now();
+
+  const diff = now - timestamp;
+
+  const minutes = Math.floor(diff / 1000 / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (minutes < 60) {
+    return `Hace ${minutes} minutos`;
+  }
+
+  if (hours < 24) {
+    return `Hace ${hours} horas`;
+  }
+
+  return `Hace ${days} días`;
+}
+
 import Link from "next/link";
 
 import { getQueueName, getQueueColor } from "@/lib/utils/matches";
@@ -17,9 +37,13 @@ interface MatchCardProps {
   region: string;
 }
 
-export default function MatchCard({ match, puuid, champions,  region,}: MatchCardProps) {
+export default function MatchCard({
+  match,
+  puuid,
+  champions,
+  region,
+}: MatchCardProps) {
   const player = getMatchPlayer(match, puuid);
-
 
   if (!player) {
     return null;
@@ -27,17 +51,19 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
 
   const win = player.win;
 
+  const playedAt = timeAgo(match.info.gameCreation);
+
   const teamMates = getTeamPlayers(match, player.teamId);
 
   const enemies = getEnemyPlayers(match, player.teamId);
 
   const renderPlayer = (p: any) => (
-  <Link
-    key={p.puuid}
-    href={`/summoner/${p.riotIdTagline}/${encodeURIComponent(
-      p.riotIdGameName,
-    )}/${encodeURIComponent(p.riotIdTagline)}`}
-    className="
+    <Link
+      key={p.puuid}
+      href={`/summoner/${p.riotIdTagline}/${encodeURIComponent(
+        p.riotIdGameName,
+      )}/${encodeURIComponent(p.riotIdTagline)}`}
+      className="
       flex
       items-center
       gap-2
@@ -49,27 +75,25 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
 
       hover:bg-white/5
     "
-  >
-    <img
-      src={
-        champions[p.championName.replace(/['\\s]/g, "").toLowerCase()]
-      }
-      alt={p.championName}
-      className="h-5 w-5 rounded"
-    />
+    >
+      <img
+        src={champions[p.championName.replace(/['\\s]/g, "").toLowerCase()]}
+        alt={p.championName}
+        className="h-5 w-5 rounded"
+      />
 
-    <span
-      className="
+      <span
+        className="
         max-w-[110px]
         truncate
         text-xs
         text-slate-300
       "
-    >
-      {p.riotIdGameName}
-    </span>
-  </Link>
-);
+      >
+        {p.riotIdGameName}
+      </span>
+    </Link>
+  );
 
   // Ej: "15.15.694.1234" -> "15.15.1"
   const patch = match.info.gameVersion.split(".").slice(0, 2).join(".") + ".1";
@@ -125,6 +149,7 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
         "
       >
         {/* Campeón */}
+
         <div className="flex items-center gap-4">
           <img
             src={
@@ -132,20 +157,49 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
             }
             alt={player.championName}
             loading="lazy"
-            className="h-14 w-14 rounded-xl"
+            className="
+      h-14
+      w-14
+      rounded-xl
+    "
           />
 
           <div className="flex flex-col gap-2">
             <div>
-              <h3 className="text-lg font-bold text-white">
+              <p
+                className="
+        text-sm
+        text-purple-200 font-bold t
+        mb-1
+      "
+              >
+                {playedAt}
+              </p>
+
+              <h3
+                className="
+        text-lg
+        font-bold
+        text-white
+      "
+              >
                 {player.championName}
               </h3>
 
-              <p className="text-sm font-bold">
+              <p
+                className="
+          text-sm
+          font-bold
+        "
+              >
                 <span className="text-white">{player.kills}</span>
-                <span className="text-slate-500"> / </span>
+
+                <span className="text-slate-500">{" / "}</span>
+
                 <span className="text-rose-400">{player.deaths}</span>
-                <span className="text-slate-500"> / </span>
+
+                <span className="text-slate-500">{" / "}</span>
+
                 <span className="text-cyan-400">{player.assists}</span>
               </p>
             </div>
@@ -189,8 +243,8 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
         </div>
 
         {/* Equipos + info */}
- <div
-  className="
+        <div
+          className="
     ml-auto
 
     grid
@@ -198,21 +252,21 @@ export default function MatchCard({ match, puuid, champions,  region,}: MatchCar
     gap-x-6
     items-start
   "
->
-<div className="flex flex-col gap-1">
-<TeamIcons
-  allies={teamMates}
-  enemies={enemies}
-  champions={champions}
-  region={region}
-/>
-</div>
+        >
+          <div className="flex flex-col gap-1">
+            <TeamIcons
+              allies={teamMates}
+              enemies={enemies}
+              champions={champions}
+              region={region}
+            />
+          </div>
           <div className="shrink-0 text-right text-sm">
             <p
               className={`
-                ${getQueueColor(match.info.queueId)}
-                font-medium
-              `}
+    ${getQueueColor(match.info.queueId)}
+    font-medium
+  `}
             >
               {getQueueName(match.info.queueId)}
             </p>

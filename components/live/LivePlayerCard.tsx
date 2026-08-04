@@ -1,13 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   player: any;
+  region: string;
 }
 
 export default function LivePlayerCard({
   player,
+  region,
 }: Props) {
-  // Cambia aquí cuando Riot saque un parche nuevo
   const DDRAGON_VERSION = "16.15.1";
 
   const championImage = player.championName
@@ -15,6 +17,57 @@ export default function LivePlayerCard({
         player.championName,
       )}.png`
     : null;
+
+  const hasProfile =
+    !player.hidden &&
+    player.riotIdGameName &&
+    player.riotIdTagline;
+
+  const playerInfo = (
+    <>
+      <div
+        className="
+        text-white
+        font-bold
+        text-base
+        truncate
+        "
+      >
+       {player.riotIdGameName ?? player.riotId ?? "Jugador"}
+      </div>
+
+      <div
+        className="
+        text-sm
+        text-slate-400
+        "
+      >
+        Nivel {player.level ?? "-"}
+      </div>
+
+      {player.championName && (
+        <div
+          className="
+          text-sm
+          text-slate-500
+          "
+        >
+          {player.championName}
+        </div>
+      )}
+
+      {player.hidden && (
+        <div
+          className="
+          text-sm
+          text-slate-500
+          "
+        >
+          Modo streamer
+        </div>
+      )}
+    </>
+  );
 
   return (
     <div
@@ -39,6 +92,7 @@ export default function LivePlayerCard({
         h-full
         "
       >
+
         {/* CHAMPION ICON */}
 
         <div
@@ -84,6 +138,7 @@ export default function LivePlayerCard({
           )}
         </div>
 
+
         {/* PLAYER INFO */}
 
         <div
@@ -92,48 +147,27 @@ export default function LivePlayerCard({
           min-w-0
           "
         >
-          <div
-            className="
-        
-            text-white
-            font-bold
-            text-base
-            "
-          >
-            {player.riotId}
-          </div>
-
-          <div
-            className="
-            text-sm
-            text-slate-400
-            "
-          >
-            Nivel {player.level ?? "-"}
-          </div>
-
-          {player.championName && (
-            <div
+          {hasProfile ? (
+            <Link
+              href={`/summoner/${region}/${encodeURIComponent(
+                player.riotIdGameName,
+              )}/${encodeURIComponent(
+                player.riotIdTagline,
+              )}`}
               className="
-              text-sm
-              text-slate-500
+              block
+              rounded
+              transition-colors
+              hover:bg-white/5
               "
             >
-              {player.championName}
-            </div>
-          )}
-
-          {player.hidden && (
-            <div
-              className="
-              text-sm
-              text-slate-500
-              "
-            >
-              Modo streamer
-            </div>
+              {playerInfo}
+            </Link>
+          ) : (
+            playerInfo
           )}
         </div>
+
 
         {/* STATS */}
 
@@ -146,6 +180,7 @@ export default function LivePlayerCard({
             shrink-0
             "
           >
+
             {/* W/L */}
 
             <div
@@ -174,6 +209,7 @@ export default function LivePlayerCard({
                 {player.losses}L
               </span>
             </div>
+
 
             {/* RANK */}
 
@@ -214,8 +250,10 @@ export default function LivePlayerCard({
                 WR {player.wr}%
               </span>
             </div>
+
           </div>
         )}
+
       </div>
     </div>
   );
