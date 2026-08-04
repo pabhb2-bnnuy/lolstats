@@ -12,7 +12,38 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "LolStats, Herramienta para revisar tus partidas!",
-  description: "This tool is meant to help me learn some basic react stuff :).",
+  description:
+    "Revisa tu perfil, partidas, elo y la partida en vivo que estas jugando!",
+
+  openGraph: {
+    title: "LolStats",
+    description:
+      "Revisa tu perfil, partidas, elo y la partida en vivo que estas jugando!",
+    url: "https://lolstats.bnnuytech.net",
+    siteName: "LolStats",
+    images: [
+      {
+        url: "https://lolstats.bnnuytech.net/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "LolStats - League of Legends Stats",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "LolStats",
+    description:
+      "Revisa tu perfil, partidas, elo y la partida en vivo que estas jugando!",
+    images: ["https://lolstats.bnnuytech.net/og-image.png"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -21,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-slate-900 bg-[url('/test.png')]  bg-fixed">
+    <html lang="es" className="bg-slate-900 bg-[url('/test.png')] bg-fixed">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <AnimatedBody>
           <Navbar />
