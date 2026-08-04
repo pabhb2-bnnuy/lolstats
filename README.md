@@ -70,13 +70,7 @@ Entrar en el directorio release:
 cd release
 ```
 
-Cambiamos el nombre del .env.ejemplo a .env:
-
-```bash
-cp .env.ejemplo .env
-```
-
-Edita el fichero `.env` para meter tu clave de la API de Riot:
+Editamos el fichero `.env` para meter tu clave de la API de Riot:
 
 ```env
 RIOT_API_KEY=TU_API_KEY
