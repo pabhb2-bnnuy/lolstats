@@ -91,7 +91,9 @@ export default function RankedInfo({ profile }: RankedInfoProps) {
         >
           {isUnranked
             ? "Unranked"
-            : `${translateRank(profile.tier)} ${profile.rank}`}
+            : ["MASTER", "GRANDMASTER", "CHALLENGER"].includes(profile.tier)
+              ? translateRank(profile.tier)
+              : `${translateRank(profile.tier)} ${profile.rank}`}
         </h2>
 
         {!isUnranked && (
