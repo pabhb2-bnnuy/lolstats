@@ -205,7 +205,7 @@ export default function MatchCard({
             </div>
 
             {/* Objetos */}
-            <div className="flex flex-wrap gap-1">
+            <div className="flex  gap-1">
               {items.map((itemId: number, index: number) =>
                 itemId !== 0 ? (
                   <img
