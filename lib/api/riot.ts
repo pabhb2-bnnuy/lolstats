@@ -1,3 +1,6 @@
+import { RANK_NAMES, translateRank } from "../utils/ranks";
+
+
 const API_KEY = process.env.RIOT_API_KEY!;
 
 // =========================
@@ -309,9 +312,8 @@ export async function getLivePlayer(
     level:
       summoner.summonerLevel,
 
-    tier:
-      solo?.tier ?? "UNRANKED",
-
+tier:
+  translateRank(solo?.tier ?? "UNRANKED"),
     rank:
       solo?.rank ?? "",
 
