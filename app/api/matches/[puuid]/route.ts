@@ -20,46 +20,26 @@ export async function GET(
   try {
     const matchIds = await getMatchIds(puuid, start, count);
 
-    const matches = (
-      await Promise.all(
-        matchIds.map(async (id: string) => {
-          try {
-            const match = await getMatch(id);
+ const matches = (
+  await Promise.all(
+    matchIds.map(async (id: string) => {
+      try {
+        return await getMatch(id);
+      } catch (err) {
+        console.log("MATCH ERROR:", id, err);
+        return null;
+      }
+    })
+  )
+).filter(Boolean);
 
-            // Añadimos gameName y tagLine a todos los participantes
-            match.info.participants = match.info.participants.map((p: any) => {
-              if (p.riotIdGameName && p.riotIdTagline) {
-                return {
-                  ...p,
-                  gameName: p.riotIdGameName,
-                  tagLine: p.riotIdTagline,
-                };
-              }
+const MAX_AGE = 180 * 24 * 60 * 60 * 1000;
 
-              // Compatibilidad con versiones antiguas de la API
-              if (p.riotId) {
-                const split = p.riotId.split("#");
+const recentMatches = matches.filter(
+  (match: any) => Date.now() - match.info.gameCreation <= MAX_AGE,
+);
 
-                return {
-                  ...p,
-                  gameName: split[0],
-                  tagLine: split[1] ?? "",
-                };
-              }
-
-              return p;
-            });
-
-            return match;
-          } catch (err) {
-            console.log("MATCH ERROR:", id, err);
-            return null;
-          }
-        })
-      )
-    ).filter(Boolean);
-
-    return Response.json(matches);
+return Response.json(recentMatches);
   } catch (err) {
     console.log("MATCHES API ERROR:", err);
 

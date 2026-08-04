@@ -84,7 +84,7 @@ export default function MatchCard({
 
       <span
         className="
-        max-w-[110px]
+        max-w-27.5
         truncate
         text-xs
         text-slate-300

@@ -14,10 +14,11 @@ export default function LoadMoreMatches({
   initialMatches,
   puuid,
   champions,
-   region,
+  region,
 }: LoadMoreMatchesProps) {
   const [matches, setMatches] = useState(initialMatches);
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   async function loadMore() {
     try {
@@ -28,6 +29,11 @@ export default function LoadMoreMatches({
       );
 
       const newMatches = await res.json();
+
+      if (newMatches.length === 0) {
+        setHasMore(false);
+        return;
+      }
 
       if (!Array.isArray(newMatches)) {
         console.error("Respuesta incorrecta:", newMatches);
@@ -52,49 +58,44 @@ export default function LoadMoreMatches({
     <>
       <div className="space-y-3">
         {matches.map((match) => (
-    <MatchCard
-  key={match.metadata.matchId}
-  match={match}
-  puuid={puuid}
-  champions={champions}
-  region={region}
-/>
+          <MatchCard
+            key={match.metadata.matchId}
+            match={match}
+            puuid={puuid}
+            champions={champions}
+            region={region}
+          />
         ))}
       </div>
 
-      <button
-        onClick={loadMore}
-        disabled={loading}
-        className="
-          mt-6
-          w-full
-          rounded-xl
-          border
-          border-indigo-400/30
-
-          bg-indigo-950/40
-
-          px-4
-          py-3
-
-          text-sm
-          font-semibold
-          text-white
-
-          transition-all
-          duration-200
-
-          hover:bg-indigo-900/60
-          active:scale-[0.98]
-
-          disabled:cursor-not-allowed
-          disabled:opacity-50
-
-          sm:text-base
-        "
-      >
-        {loading ? "Cargando..." : "Cargar más partidas"}
-      </button>
+   {hasMore && (
+  <button
+    onClick={loadMore}
+    disabled={loading}
+    className="
+      mt-6
+      w-full
+      rounded-xl
+      border
+      border-indigo-400/30
+      bg-indigo-950/40
+      px-4
+      py-3
+      text-sm
+      font-semibold
+      text-white
+      transition-all
+      duration-200
+      hover:bg-indigo-900/60
+      active:scale-[0.98]
+      disabled:cursor-not-allowed
+      disabled:opacity-50
+      sm:text-base
+    "
+  >
+    {loading ? "Cargando..." : "Cargar más partidas"}
+  </button>
+)}
     </>
   );
 }
