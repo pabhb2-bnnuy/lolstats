@@ -1,0 +1,31 @@
+services:
+  lol-live:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+
+    container_name: lol-live
+
+    env_file:
+      - .env
+
+    expose:
+      - "3000"
+
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+
+    container_name: lol-nginx
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+    depends_on:
+      - lol-live
+
+    restart: unless-stopped

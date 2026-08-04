@@ -19,7 +19,7 @@ export default function LivePlayerCard({
   return (
     <div
       className="
-      h-[96px]
+      h-24
       rounded-xl
       border
       border-white/10
