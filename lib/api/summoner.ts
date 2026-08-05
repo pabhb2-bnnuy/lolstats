@@ -1,3 +1,5 @@
+import { getChampionMasteries } from "./riot";
+
 import {
   getAccountByRiotId,
   getRankedStats,
@@ -74,6 +76,14 @@ export async function getSummonerProfile(
     );
 
 
+    // =========================
+// CHAMPION MASTERIES
+// =========================
+
+const masteries = await getChampionMasteries(
+  account.puuid,
+  region,
+);
 
   // =========================
   // 4. Match History

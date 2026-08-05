@@ -353,3 +353,28 @@ tier:
   return data;
 
 }
+
+// =========================
+// CHAMPION MASTERIES
+// =========================
+
+export async function getChampionMasteries(
+  puuid: string,
+  region: string,
+) {
+  const res = await fetch(
+    `https://${platform(region)}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${puuid}`,
+    {
+      headers: {
+        "X-Riot-Token": API_KEY,
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Champion Masteries no encontradas");
+  }
+
+  return res.json();
+}

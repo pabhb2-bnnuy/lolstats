@@ -29,7 +29,7 @@ export default function MatchItems({
       </div>
 
       {/* Objetos */}
-      <div className="flex gap-1">
+      <div className="flex gap-1 justify-start">
         {items.map((itemId, index) =>
           itemId !== 0 ? (
             <img
