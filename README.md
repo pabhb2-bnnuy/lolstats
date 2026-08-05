@@ -64,7 +64,13 @@ El directorio `release/` contiene todo lo necesario para lanzar la web/app media
 
 # Configuración
 
-Entrar en el directorio release:
+Para poder trabajar con el código y demás:
+
+```bash
+npm install && npm ci
+```
+
+Entramos en el directorio release:
 
 ```bash
 cd release
