@@ -49,7 +49,7 @@ export default function Footer() {
             sm:text-base
           "
         >
-          pabhb2-bnnuy
+          Pablo Hermosilla
         </p>
 
         <Image
